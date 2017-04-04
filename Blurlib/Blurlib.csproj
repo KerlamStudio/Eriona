@@ -2,9 +2,23 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
+    <ApplicationIcon />
+    <Win32Resource />
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <Authors>Maybeking</Authors>
+    <Company>KerlamStudio</Company>
+    <Description>Game library for graphics and game systems written in C# for the game Eriona.</Description>
+    <PackageProjectUrl>https://www.kerlamstudio.org/games/eriona/</PackageProjectUrl>
+    <NeutralLanguage>C#</NeutralLanguage>
+    <SignAssembly>False</SignAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Properties\" />
     <Folder Include="src\GUI\" />
   </ItemGroup>
 
