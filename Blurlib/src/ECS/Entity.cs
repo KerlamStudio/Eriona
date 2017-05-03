@@ -42,15 +42,7 @@ namespace Blurlib.ECS
             }
         }
 
-        private bool _visible;
-        public bool Visible
-        {
-            get { return _visible; }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public bool Visible;
 
         private bool _collidable;
         public bool Collidable

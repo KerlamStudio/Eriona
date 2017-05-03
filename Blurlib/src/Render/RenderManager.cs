@@ -10,8 +10,6 @@ namespace Blurlib.Render
 {
     public class RenderManager
     {
-        private GameCore _gameCore;
-
         public class ZIndexComparer : IComparer<IDraw>
         {
             public int Compare(IDraw a, IDraw b)
@@ -20,25 +18,48 @@ namespace Blurlib.Render
             }
         }
 
-        private SortedSet<IDraw> _drawList = new SortedSet<IDraw>(new ZIndexComparer());
+        public Color ClearColor;
 
-        public RenderManager(GameCore gameCore)
+        private SortedSet<IDraw> _drawList;
+
+        public RenderManager()
         {
-            _gameCore = gameCore;
+            _drawList = new SortedSet<IDraw>(new ZIndexComparer());
+            ClearColor = Color.ForestGreen;
         }
 
-        public bool AddEntity(Entity entity)
+        public void Initialize()
         {
-            if (!entity.Visible)
-                return false;
 
+        }
 
-            return true;
+        public void AddComponent<T>(T component) where T : IDraw
+        {
+            _drawList.Add(component);
+        }
+
+        public void AddEntity(Entity entity)
+        {
+            throw new NotImplementedException();
         }
 
         public void Render(SpriteBatch spriteBatch, bool usePProcess=false)
         {
-            
+            spriteBatch.Begin();
+
+            foreach (IDraw drawable in _drawList)
+            {
+                if (drawable.Visible)
+                {
+                    spriteBatch.Draw(
+                        drawable.Texture, 
+                        drawable.TexurePosition + drawable.TextureLocalTranslate, 
+                        drawable.TextureClip, 
+                        drawable.TextureColorFilter);
+                }
+            }
+
+            spriteBatch.End();
         }
     }
 }

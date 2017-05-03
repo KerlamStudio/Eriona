@@ -52,17 +52,20 @@ namespace Blurlib
 
         // -TODO-: RenderManager
         // -TODO-: InputManager
-        private RenderManager _renderManager;
+        public RenderManager RenderManager;
 
         public GameCore(int width, int height, string title, bool mouseVisible=true, string contentDir="Content")
         {
             Instance = this;
+
+            RenderManager = new RenderManager();
 
             _windowWidth = width;
             _windowHeight = height;
             WindowTitle = title;
             IsMouseVisible = mouseVisible;
             IsFixedTimeStep = true;
+            
 
             _graphics = new GraphicsDeviceManager(this);
             _graphics.DeviceCreated += graphics_DeviceCreated;
@@ -83,7 +86,16 @@ namespace Blurlib
             _graphics.PreferredBackBufferHeight = WindowHeight;
             _graphics.PreferMultiSampling = true;
             _graphics.GraphicsProfile = GraphicsProfile.HiDef;
+
             _graphics.SynchronizeWithVerticalRetrace = true;
+            // or
+            // -TODO-: Test difference
+            /*             
+            _graphics.SynchronizeWithVerticalRetrace = false;
+            IsFixedTimeStep = true;
+            TargetElapsedTime = TimeSpan.FromMilliseconds(1000.0f / 60);
+             */
+
             _graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
             e.GraphicsDeviceInformation.PresentationParameters.MultiSampleCount = 16;
         }
@@ -94,12 +106,13 @@ namespace Blurlib
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // _renderManager.Initialize();
+            RenderManager.Initialize();
         }
 
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            
 
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -126,7 +139,8 @@ namespace Blurlib
         {
             base.Draw(gameTime);
 
-            // _renderManager.Draw();
+            GraphicsDevice.Clear(RenderManager.ClearColor);
+            RenderManager.Render(_spriteBatch);
         }
 
         protected override void OnExiting(object sender, EventArgs args)

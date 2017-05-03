@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Blurlib;
 using Microsoft.Xna.Framework;
 using Blurlib.Util;
+using Blurlib.ECS.Components;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Eriona.Scenes
 {
@@ -19,6 +21,7 @@ namespace Eriona.Scenes
         public override void Begin()
         {
             "Begin DummyScene [. . .]".Printl();
+            GameCore.Instance.RenderManager.AddComponent(new Sprite(true, true) { Ttexture = GameCore.Instance.Content.Load<Texture2D>("dummy") });
         }
 
         public override void Update()
@@ -27,7 +30,6 @@ namespace Eriona.Scenes
             "Update DummyScene [. . .]".Printl();
             ("Elapsed millisecond : " + GameCore.DeltaTime.ToString()).Printl();
             "".Printl();
-
         }
 
         public override void End()
