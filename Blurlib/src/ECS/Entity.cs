@@ -17,12 +17,11 @@ namespace Blurlib.ECS
 
         private GameCore _gameCore;
 
-        private Scene _scene;
+        public Scene Scene { get; private set; }
 
         public Transform WorldTransform;
 
         private bool _active;
-
         public bool Active
         {
             get { return _active; }
@@ -54,9 +53,9 @@ namespace Blurlib.ECS
             }
         }
 
-        public ComponentsManager Components;
+        private ComponentsManager _components;
 
-        public Entity(string id=null, Transform worldTransform=null, bool active=false, bool visible=false, bool collidable=false, params Component[] components)
+        public Entity(string id = null, Transform worldTransform = null, bool active = false, bool visible = false, bool collidable = false, params Component[] components)
         {
             _active = active;
             Visible = visible;
@@ -73,7 +72,72 @@ namespace Blurlib.ECS
                 WorldTransform = worldTransform;
 
             if (components.Length > 0)
-                Components.Add(components);
+                _components.Add(components);
+        }
+
+        public T Get<T>() where T : Component
+        {
+            return _components.Get<T>();
+        }
+
+        public Component Get(string tag)
+        {
+            return _components.Get(tag);
+        }
+
+        public IEnumerable<Component> GetAll(string tag)
+        {
+            return _components.GetAll(tag);
+        }
+
+        public IEnumerable<T> GetAll<T>() where T : Component
+        {
+            return _components.GetAll<T>();
+        }
+
+        public bool Add<T>(T component) where T : Component
+        {
+            return _components.Add(component);
+        }
+
+        public bool Add(IEnumerable<Component> components)
+        {
+            return _components.Add(components);
+        }
+
+        public bool Add(params Component[] components)
+        {
+            return Add(components);
+        }
+
+        public bool Remove<T>(T component) where T : Component
+        {
+            return _components.Remove(component);
+        }
+
+        public bool Remove(IEnumerable<Component> components)
+        {
+            return _components.Remove(components);
+        }
+
+        public bool Remove(params Component[] component)
+        {
+            return Remove(component);
+        }
+
+        public bool Remove<T>() where T : Component
+        {
+            return _components.Remove<T>();
+        }
+
+        public bool Remove(string tag)
+        {
+            return _components.Remove(tag);
+        }
+
+        public bool RemoveAll<T>() where T : Component
+        {
+            return _components.RemoveAll<T>();
         }
 
         public virtual void Initialize()
@@ -82,7 +146,7 @@ namespace Blurlib.ECS
 
         public virtual void OnAdded(Scene scene)
         {
-            _scene = scene;
+            Scene = scene;
         }
 
         public virtual void OnRemove()
@@ -100,7 +164,7 @@ namespace Blurlib.ECS
 
         public virtual void Update()
         {
-            Components.Update();
+            _components.Update();
         }        
     }
 }

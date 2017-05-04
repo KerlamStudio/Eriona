@@ -40,6 +40,11 @@ namespace Blurlib.ECS
             SceneResources = new ResourcesManager();
         }
 
+        public void Add<T>(T entity) where T : Entity
+        {
+            
+        }
+
         public abstract void Begin();
 
         public virtual void Update()

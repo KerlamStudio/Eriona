@@ -12,7 +12,7 @@ namespace Blurlib.Render
         bool Visible { get; }
         Texture2D Texture { get; }
         Rectangle? TextureClip { get; }
-        Vector2 TexurePosition { get; }
+        Vector2 TexturePosition { get; }
         Vector2 TextureLocalTranslate { get; }
         Color TextureColorFilter { get; }
     }

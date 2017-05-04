@@ -14,10 +14,7 @@ namespace Blurlib.ECS
         private List<Component> _components;
         private List<Component> _componentsToAdd;
         private List<Component> _componentsToRemove;
-
-        // =TODO=: Implement UpdateRender
-        public bool UpdateRender;
-
+        
         public int Count
         {
             get { return _components.Count; }
@@ -30,8 +27,7 @@ namespace Blurlib.ECS
             _components = new List<Component>();
             _componentsToAdd = new List<Component>();
             _componentsToRemove = new List<Component>();
-
-            UpdateRender = false;
+            
         }
 
         public void Update()
@@ -56,7 +52,6 @@ namespace Blurlib.ECS
                     component.OnRemove();
                 }
                 _componentsToRemove.Clear();
-                UpdateRender = true;
             }
 
             if (_componentsToAdd.Count > 0)
@@ -67,7 +62,6 @@ namespace Blurlib.ECS
                     component.OnAdded(Entity);
                 }
                 _componentsToAdd.Clear();
-                UpdateRender = true;
             }
         }
 
@@ -79,7 +73,12 @@ namespace Blurlib.ECS
             return null;
         }
 
-        public Component Get(string Tag)
+        public Component Get(string tag)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Component> GetAll(string tag)
         {
             throw new NotImplementedException();
         }
@@ -157,7 +156,7 @@ namespace Blurlib.ECS
             return Remove(components);
         }
 
-        public bool Remove(string Tag)
+        public bool Remove(string tag)
         {
             throw new NotImplementedException();
         }

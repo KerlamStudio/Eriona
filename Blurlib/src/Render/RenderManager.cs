@@ -33,12 +33,34 @@ namespace Blurlib.Render
 
         }
 
-        public void AddComponent<T>(T component) where T : IDraw
+        // -TODO-: Finish add component way
+        public bool AddComponent(Component component)
         {
-            _drawList.Add(component);
+            if (component is IDraw)
+            {
+                if (!_drawList.Contains(component as IDraw))
+                {
+                    _drawList.Add(component as IDraw);
+                    return true;
+                }
+            }
+            return false;
         }
 
-        public void AddEntity(Entity entity)
+        public bool RemoveComponent(Component component)
+        {
+            if (component is IDraw)
+            {
+                if (_drawList.Contains(component as IDraw))
+                {
+                    _drawList.Remove(component as IDraw);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool AddEntity(Entity entity)
         {
             throw new NotImplementedException();
         }
@@ -53,7 +75,7 @@ namespace Blurlib.Render
                 {
                     spriteBatch.Draw(
                         drawable.Texture, 
-                        drawable.TexurePosition + drawable.TextureLocalTranslate, 
+                        drawable.TexturePosition + drawable.TextureLocalTranslate, 
                         drawable.TextureClip, 
                         drawable.TextureColorFilter);
                 }

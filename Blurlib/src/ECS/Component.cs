@@ -1,4 +1,5 @@
-﻿using Blurlib.World;
+﻿using Blurlib.Util;
+using Blurlib.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -27,8 +28,31 @@ namespace Blurlib.ECS
                 }
             }
         }
-        
-        public bool Visible { get; set; }
+
+        private bool _visible;
+        public bool Visible
+        {
+            get
+            {
+                if (Entity.IsNotNull() && Entity.Visible)
+                    return _visible;
+                else
+                    return false;
+            }
+
+            set
+            {
+                _visible = value;
+                if (_visible)
+                {
+                    GameCore.Instance.RenderManager.AddComponent(this);
+                }
+                else if (!_visible)
+                {
+                    GameCore.Instance.RenderManager.RemoveComponent(this);
+                }
+            }
+        }
 
         private bool _collidable;
         public bool Collidable
@@ -40,7 +64,9 @@ namespace Blurlib.ECS
             }
         }
 
-        public Entity Entity { get; set; }
+        public Entity Entity { get; private set; }
+
+        public Scene Scene { get { return Entity.IsNotNull() ? Entity.Scene : null; } }
         
         // =TODO=: WorldTransform / EntityTransform
         // public Transform Transform;
@@ -79,6 +105,12 @@ namespace Blurlib.ECS
         public virtual void Update()
         {
 
+        }
+
+        public void RemoveSelf()
+        {
+            if (Entity.IsNotNull())
+                Entity.Remove(this);
         }
     }
 }

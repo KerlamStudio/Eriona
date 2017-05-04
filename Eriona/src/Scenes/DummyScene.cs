@@ -21,14 +21,14 @@ namespace Eriona.Scenes
         public override void Begin()
         {
             "Begin DummyScene [. . .]".Printl();
-            GameCore.Instance.RenderManager.AddComponent(new Sprite(true, true) { Ttexture = GameCore.Instance.Content.Load<Texture2D>("dummy") });
+            
         }
 
         public override void Update()
         {
             base.Update();
             "Update DummyScene [. . .]".Printl();
-            ("Elapsed millisecond : " + GameCore.DeltaTime.ToString()).Printl();
+            //("Elapsed millisecond : " + GameCore.DeltaTime.ToString()).Printl();
             "".Printl();
         }
 
