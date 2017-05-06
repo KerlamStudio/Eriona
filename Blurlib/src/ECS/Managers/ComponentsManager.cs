@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blurlib.ECS
+namespace Blurlib.ECS.Managers
 {
     public class ComponentsManager
     {
-        public Entity Entity;
+        public Entity Entity { get; internal set; }
 
         private List<Component> _components;
         private List<Component> _componentsToAdd;
         private List<Component> _componentsToRemove;
-        
+
         public int Count
         {
             get { return _components.Count; }
@@ -27,12 +27,12 @@ namespace Blurlib.ECS
             _components = new List<Component>();
             _componentsToAdd = new List<Component>();
             _componentsToRemove = new List<Component>();
-            
+
         }
 
         public void Update()
         {
-            RefreshComponentList();
+            RefreshLists();
 
             // -TODO-: Sort components by update order
             foreach (Component component in _components)
@@ -42,18 +42,8 @@ namespace Blurlib.ECS
             }
         }
 
-        private void RefreshComponentList()
+        private void RefreshLists()
         {
-            if (_componentsToRemove.Count > 0)
-            {
-                foreach (Component component in _componentsToRemove)
-                {
-                    _components.Remove(component);
-                    component.OnRemove();
-                }
-                _componentsToRemove.Clear();
-            }
-
             if (_componentsToAdd.Count > 0)
             {
                 foreach (Component component in _componentsToAdd)
@@ -62,6 +52,16 @@ namespace Blurlib.ECS
                     component.OnAdded(Entity);
                 }
                 _componentsToAdd.Clear();
+            }
+
+            if (_componentsToRemove.Count > 0)
+            {
+                foreach (Component component in _componentsToRemove)
+                {
+                    _components.Remove(component);
+                    component.OnRemove();
+                }
+                _componentsToRemove.Clear();
             }
         }
 

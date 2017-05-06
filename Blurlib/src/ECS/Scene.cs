@@ -1,4 +1,5 @@
-﻿using Blurlib.src.ECS;
+﻿using Blurlib.ECS.Managers;
+using Blurlib.ECS;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -27,9 +28,7 @@ namespace Blurlib.ECS
         ResourcesManager SceneResources;
 
         protected Color _backgroundColor;
-
-        // +TODO+: Entity List
-
+        
         public Scene(string id, GameCore gameCore, bool pause = false)
         {
             _id = id;
@@ -40,14 +39,27 @@ namespace Blurlib.ECS
             SceneResources = new ResourcesManager();
         }
 
+
+        // -TODO-: Getters/adders/removers of entity
+
         public void Add<T>(T entity) where T : Entity
         {
-            
+            throw new NotImplementedException();
         }
 
         public abstract void Begin();
 
+        public virtual void BeforeUpdate()
+        {
+
+        }
+
         public virtual void Update()
+        {
+
+        }
+
+        public virtual void AfterUpdate()
         {
 
         }

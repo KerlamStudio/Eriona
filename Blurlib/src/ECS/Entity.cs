@@ -1,4 +1,5 @@
-﻿using Blurlib.Util;
+﻿using Blurlib.ECS.Managers;
+using Blurlib.Util;
 using Blurlib.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -15,7 +16,7 @@ namespace Blurlib.ECS
             get { return _id; }
         }
 
-        private GameCore _gameCore;
+        public List<string> Tags;
 
         public Scene Scene { get; private set; }
 
@@ -60,6 +61,10 @@ namespace Blurlib.ECS
             _active = active;
             Visible = visible;
             Collidable = collidable;
+
+            _components = new ComponentsManager(this);
+
+            Tags = new List<string>();
 
             if (id.IsNull())
                 _id = Extension.GenerateUniqueId("Entity");
@@ -147,6 +152,10 @@ namespace Blurlib.ECS
         public virtual void OnAdded(Scene scene)
         {
             Scene = scene;
+        }
+
+        public virtual void Awake()
+        {
         }
 
         public virtual void OnRemove()

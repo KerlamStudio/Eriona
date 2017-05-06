@@ -81,10 +81,11 @@ namespace Blurlib
 
         private void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
         {
-            // =TODO=: understand this lol
+            // -TODO-: understand this lol
             _graphics.PreferredBackBufferWidth = WindowWidth;
             _graphics.PreferredBackBufferHeight = WindowHeight;
             _graphics.PreferMultiSampling = true;
+            // -TODO-: Create setting to GraphicsProfile.Reach for old computer
             _graphics.GraphicsProfile = GraphicsProfile.HiDef;
 
             _graphics.SynchronizeWithVerticalRetrace = true;
@@ -121,7 +122,9 @@ namespace Blurlib
             // Scene update
             if (_scene.IsNotNull() && !_scene.Pause)
             {
+                _scene.BeforeUpdate();
                 _scene.Update();
+                _scene.AfterUpdate();
             }
 
             // Switch to the next scene

@@ -1,6 +1,7 @@
 ﻿using Blurlib.Render;
 using Blurlib.Util;
 using System;
+using System.Diagnostics;
 
 namespace Eriona
 {
@@ -18,6 +19,7 @@ namespace Eriona
             using (var game = new ErionaGame(1200, 600, "Eriona Dev"))
                 game.Run();
             Console.WriteLine("Appuyez sur Entrée pour continuer . . .");
+            Console.Read();
         }
     }
 }

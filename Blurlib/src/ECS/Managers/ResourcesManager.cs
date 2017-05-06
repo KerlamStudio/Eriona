@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blurlib.src.ECS
+namespace Blurlib.ECS.Managers
 {
     public class ResourcesManager
     {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -98,6 +99,40 @@ namespace Blurlib.Util
         public static void Default<T>(this List<T> list, T value, int count)
         {
             list.AddRange(Enumerable.Repeat(value, count)); ;
+        }
+
+        public static void Add<T>(this ICollection<T> list, IEnumerable<T> toAdd)
+        {
+            foreach (T element in toAdd )
+            {
+                list.Add(element);
+            }
+        }
+
+        static void Bechmark(Action m1, Action m2, int loop = 100000000)
+        {
+            m1();
+            m2();
+
+            var s1 = Stopwatch.StartNew();
+            for (int i = 0; i < loop; i++)
+            {
+                m1();
+            }
+            s1.Stop();
+
+            var s2 = Stopwatch.StartNew();
+            for (int i = 0; i < loop; i++)
+            {
+                m2();
+            }
+            s2.Stop();
+
+            Console.WriteLine(((double)(s1.Elapsed.TotalMilliseconds *
+                1000000) / loop).ToString("0.00 ns"));
+            Console.WriteLine(((double)(s2.Elapsed.TotalMilliseconds *
+                1000000) / loop).ToString("0.00 ns"));
+            Console.Read();
         }
     }
 }

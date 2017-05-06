@@ -9,7 +9,7 @@ namespace Blurlib.Render
     public interface IDraw
     {
         int ZIndex { get; }
-        bool Visible { get; }
+        bool Visible { get; set; }
         Texture2D Texture { get; }
         Rectangle? TextureClip { get; }
         Vector2 TexturePosition { get; }

@@ -71,14 +71,15 @@ namespace Blurlib.ECS
         // =TODO=: WorldTransform / EntityTransform
         // public Transform Transform;
         
-        public string[] Tags;
+        public List<string> Tags;
 
         public Component(bool active=false, bool visible=false, bool collidable=false)
         {
             _active = active;
             Visible = visible;
             //Collidable = collidable;
-            
+
+            Tags = new List<string>();
         }
 
         public virtual void Initialize()
