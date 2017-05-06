@@ -10,9 +10,9 @@ namespace Eriona.Entities
 {
     public class DummyEntity : Entity
     {
-        public DummyEntity() : base("Dummy", new Transform(100,100,19,34), true, true, true)
+        public DummyEntity(params Component[] components) : base("Dummy", new Transform(0,150,19,34), true, true, true)
         {
-
+            Add(components);
         }
 
         public override void Initialize()
@@ -23,6 +23,11 @@ namespace Eriona.Entities
         public override void OnAdded(Scene scene)
         {
             base.OnAdded(scene);
+        }
+
+        public override void Awake()
+        {
+            base.Awake();
         }
 
         public override void OnDisable()

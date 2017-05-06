@@ -7,6 +7,8 @@ namespace Blurlib.World
 {
     public class Transform
     {
+        public static Transform Zero = new Transform(0, 0, 0, 0);
+
         public float X              { get;                                                      set; }
         public float Y              { get;                                                      set; }
 
@@ -63,6 +65,14 @@ namespace Blurlib.World
             set { X = value.X; Y = value.Y; Width = value.Width; Height = value.Height; }
         }
 
+        public Transform()
+        {
+            X = 0;
+            Y = 0;
+            Width = 0;
+            Height = 0;
+        }
+
         public Transform(float x, float y, float width, float height)
         {
             X = x;
@@ -105,6 +115,46 @@ namespace Blurlib.World
         public bool AABBCollision(Transform other, out Transform intersection)
         {
             throw new NotImplementedException();
+        }
+
+        public static Transform operator+(Transform a, Transform b)
+        {
+            return new Transform(a.Position + b.Position, a.Size + b.Size);
+        }
+
+        public static Transform operator -(Transform a, Transform b)
+        {
+            return new Transform(a.Position - b.Position, a.Size - b.Size);
+        }
+
+        public static Transform operator *(Transform a, Transform b)
+        {
+            return new Transform(a.Position * b.Position, a.Size * b.Size);
+        }
+
+        public static Transform operator /(Transform a, Transform b)
+        {
+            return new Transform(a.Position / b.Position, a.Size / b.Size);
+        }
+
+        public static bool operator ==(Transform a, Transform b)
+        {
+            return a.Position == b.Position && a.Size == b.Size;
+        }
+
+        public static bool operator !=(Transform a, Transform b)
+        {
+            return a.Position != b.Position || a.Size != b.Size;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this == (obj as Transform);
+        }
+
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() * Y.GetHashCode() * Width.GetHashCode() * Height.GetHashCode();
         }
 
     }

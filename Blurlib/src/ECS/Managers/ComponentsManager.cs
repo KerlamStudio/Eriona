@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace Blurlib.ECS.Managers
 {
-    public class ComponentsManager
+    public class ComponentsManager : IEnumerable<Component>, IEnumerable
     {
         public Entity Entity { get; internal set; }
 
@@ -90,7 +91,7 @@ namespace Blurlib.ECS.Managers
                     yield return component as T;
         }
 
-        public bool Add<T>(T component) where T : Component
+        public bool Add(Component component)
         {
             if (!_components.Contains(component) && !_componentsToAdd.Contains(component))
             {
@@ -116,10 +117,10 @@ namespace Blurlib.ECS.Managers
 
         public bool Add(params Component[] components)
         {
-            return Add(components);
+            return Add(components as IEnumerable<Component>);
         }
 
-        public bool Remove<T>(T component) where T : Component
+        public bool Remove(Component component)
         {
             if (_components.Contains(component) && !_componentsToRemove.Contains(component))
             {
@@ -153,7 +154,7 @@ namespace Blurlib.ECS.Managers
 
         public bool Remove(params Component[] components)
         {
-            return Remove(components);
+            return Remove(components as IEnumerable<Component>);
         }
 
         public bool Remove(string tag)
@@ -166,9 +167,24 @@ namespace Blurlib.ECS.Managers
             return Remove(GetAll<T>() as IEnumerable<Component>);
         }
 
-        public bool Contain<T>(T component) where T : Component
+        public bool Contain(Component component)
         {
-            return false;
+            throw new NotImplementedException();
+        }
+
+        public bool Contain<T>() where T : Component
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerator<Component> GetEnumerator()
+        {
+            return ((IEnumerable<Component>)_components).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<Component>)_components).GetEnumerator();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blurlib.ECS.Managers
 {
-    public class EntitiesManager
+    public class EntitiesManager : IEnumerable<Entity>, IEnumerable
     {
         public Scene Scene { get; internal set; }
 
@@ -94,7 +95,7 @@ namespace Blurlib.ECS.Managers
                     yield return entity as T;
         }
 
-        public bool Add<T>(T entity) where T : Entity
+        public bool Add(Entity entity)
         {
             if (!_entities.Contains(entity) && !_entitiesToAdd.Contains(entity))
             {
@@ -120,10 +121,10 @@ namespace Blurlib.ECS.Managers
 
         public bool Add(params Entity[] entities)
         {
-            return Add(entities);
+            return Add(entities as IEnumerable<Entity>);
         }
 
-        public bool Remove<T>(T entity) where T : Entity
+        public bool Remove(Entity entity)
         {
             if (_entities.Contains(entity) && !_entitiesToRemove.Contains(entity))
             {
@@ -157,10 +158,20 @@ namespace Blurlib.ECS.Managers
 
         public bool Remove(params Entity[] entities)
         {
-            return Remove(entities);
+            return Remove(entities as IEnumerable<Entity>);
+        }
+
+        public bool RemoveById(string id)
+        {
+            throw new NotImplementedException();
         }
 
         public bool Remove(string tag)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveAll(string[] tags)
         {
             throw new NotImplementedException();
         }
@@ -170,9 +181,24 @@ namespace Blurlib.ECS.Managers
             return Remove(GetAll<T>() as IEnumerable<Entity>);
         }
 
-        public bool Contain<T>(T entity) where T : Entity
+        public bool Contain(Entity entity)
         {
-            return false;
+            throw new NotImplementedException();
+        }
+
+        public bool Contain(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerator<Entity> GetEnumerator()
+        {
+            return ((IEnumerable<Entity>)_entities).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<Entity>)_entities).GetEnumerator();
         }
     }
 }

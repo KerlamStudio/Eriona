@@ -67,8 +67,27 @@ namespace Blurlib.ECS
         public Entity Entity { get; private set; }
 
         public Scene Scene { get { return Entity.IsNotNull() ? Entity.Scene : null; } }
-        
-        // =TODO=: WorldTransform / EntityTransform
+
+        private Transform _transform;
+        public Transform Transform
+        {
+            get { return new Transform(WorldPosition, _transform.Size); }
+            set
+            {
+                _transform = value;
+                LocalPosition = Entity.WorldTransform.Position - value.Position;
+            }
+        }
+        public Vector2 LocalPosition;
+
+        public Vector2 WorldPosition
+        {
+            get
+            {
+                return Entity.WorldTransform.Position + LocalPosition;
+            }
+        }
+
         // public Transform Transform;
         
         public List<string> Tags;
@@ -78,6 +97,12 @@ namespace Blurlib.ECS
             _active = active;
             Visible = visible;
             //Collidable = collidable;
+            _transform = new Transform();
+            LocalPosition = new Vector2();
+
+            _transform = Transform.Zero;
+
+           
 
             Tags = new List<string>();
         }
@@ -89,6 +114,7 @@ namespace Blurlib.ECS
         public virtual void OnAdded(Entity entity)
         {
             Entity = entity;
+            Visible = _visible;
         }
 
         public virtual void OnRemove()

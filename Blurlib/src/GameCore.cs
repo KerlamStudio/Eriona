@@ -136,6 +136,8 @@ namespace Blurlib
                 
                 _scene?.Begin();
             }
+
+            RenderManager.Update();
         }
 
         protected override void Draw(GameTime gameTime)

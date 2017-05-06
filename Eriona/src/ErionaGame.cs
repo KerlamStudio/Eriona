@@ -19,7 +19,7 @@ namespace Eriona
         {
             base.Initialize();
 
-            _nextScene = new DummyScene("Dummy", this);
+            _nextScene = new DummyScene("Dummy");
         }
 
         protected override void Update(GameTime gameTime)

@@ -12,12 +12,11 @@ namespace Blurlib.ECS.Components
 {
     public class Sprite : Component, IDraw
     {
-        public Sprite(Texture2D texture, bool visible = true, int zIndex = 0, Rectangle? textureClip = null, Vector2? texturePosition = null, Vector2? textureLocalTranslate = null, Color? textureColorFilter = null) : base(false, visible, false)
+        public Sprite(Texture2D texture, bool visible = true, int zIndex = 0, Rectangle? textureClip = null, Vector2? textureLocalTranslate = null, Color? textureColorFilter = null) : base(false, visible, false)
         {
             Texture = texture;
             ZIndex = zIndex;
             TextureClip = textureClip;
-            TexturePosition = texturePosition.IsNull() ? Vector2.Zero : texturePosition.Value;
             TextureLocalTranslate = textureLocalTranslate.IsNull() ? Vector2.Zero : textureLocalTranslate.Value;
             TextureColorFilter = textureColorFilter.IsNull() ? Color.White : textureColorFilter.Value;
         }
@@ -28,7 +27,7 @@ namespace Blurlib.ECS.Components
 
         public Rectangle? TextureClip { get; set; }
 
-        public Vector2 TexturePosition { get; set; }
+        public Vector2 TexturePosition => WorldPosition;
 
         public Vector2 TextureLocalTranslate { get; set; }
 

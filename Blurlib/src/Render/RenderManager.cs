@@ -16,19 +16,26 @@ namespace Blurlib.Render
             {
                 return a.ZIndex.CompareTo(b.ZIndex);
             }
+
+            public static ZIndexComparer Comparer = new ZIndexComparer();
         }
 
         public Color ClearColor;
 
-        private SortedSet<IDraw> _drawList;
+        private List<IDraw> _drawList;
 
         private List<IDraw> _toAdd;
         private List<IDraw> _toRemove;
 
+        private bool _sorted;
+
         public RenderManager()
         {
-            _drawList = new SortedSet<IDraw>(new ZIndexComparer());
+            _drawList = new List<IDraw>();
+            _toAdd = new List<IDraw>();
             _toRemove = new List<IDraw>();
+
+            _sorted = true;
 
             ClearColor = Color.ForestGreen;
         }
@@ -91,9 +98,7 @@ namespace Blurlib.Render
         {
             throw new NotImplementedException();
         }
-
-
-
+        
         public void Initialize()
         {
 
@@ -105,6 +110,7 @@ namespace Blurlib.Render
             {
                 _drawList.Add(_toAdd);
                 _toAdd.Clear();
+                _sorted = false;
             }
 
             if (_toRemove.Count > 0)
@@ -115,6 +121,12 @@ namespace Blurlib.Render
                     _drawList.Remove(drawable);
                 }
                 _toRemove.Clear();
+            }
+
+            if (!_sorted)
+            {
+                _sorted = true;
+                _drawList.Sort(ZIndexComparer.Comparer);
             }
         }
 

@@ -60,7 +60,7 @@ namespace Blurlib.ECS
         {
             _active = active;
             Visible = visible;
-            Collidable = collidable;
+            //Collidable = collidable;
 
             _components = new ComponentsManager(this);
 
@@ -100,7 +100,7 @@ namespace Blurlib.ECS
             return _components.GetAll<T>();
         }
 
-        public bool Add<T>(T component) where T : Component
+        public bool Add(Component component)
         {
             return _components.Add(component);
         }
@@ -112,7 +112,7 @@ namespace Blurlib.ECS
 
         public bool Add(params Component[] components)
         {
-            return Add(components);
+            return _components.Add(components);
         }
 
         public bool Remove<T>(T component) where T : Component
@@ -125,9 +125,9 @@ namespace Blurlib.ECS
             return _components.Remove(components);
         }
 
-        public bool Remove(params Component[] component)
+        public bool Remove(params Component[] components)
         {
-            return Remove(component);
+            return _components.Remove(components);
         }
 
         public bool Remove<T>() where T : Component
@@ -160,6 +160,8 @@ namespace Blurlib.ECS
 
         public virtual void OnRemove()
         {
+            foreach (Component component in _components)
+                component.OnRemove();
         }
 
         public virtual void OnEnable()
@@ -169,8 +171,7 @@ namespace Blurlib.ECS
         public virtual void OnDisable()
         {
         }
-
-
+        
         public virtual void Update()
         {
             _components.Update();
