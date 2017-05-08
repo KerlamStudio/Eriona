@@ -13,12 +13,12 @@
 (That's a secret)
 
 ## Blurlib
-It's a 2D game engine build on the top of (Monogame)[http://www.monogame.net/] and made in C#.
+It's a 2D game engine build on the top of [Monogame](http://www.monogame.net/) and made in C#.
 
 Create from scratch by myself, based on a Scene->Entity->Component system. More features are incoming ...
 
 # Team tools
-- (Visual Studio)[https://www.visualstudio.com/] / C#
-- (Monogame)[http://www.monogame.net/] for the game framework
+- [Visual Studio](https://www.visualstudio.com/) / C#
+- [Monogame](http://www.monogame.net/) for the game framework
 - Slack: (Incoming)
-- Trello: Use as a todo list for task management. (Team trello account: (https://trello.com/b/3SnAZuRq)[https://trello.com/b/3SnAZuRq])
+- Trello: Use as a todo list for task management. (Team trello account: [https://trello.com/b/3SnAZuRq](https://trello.com/b/3SnAZuRq]))
