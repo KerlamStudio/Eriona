@@ -74,19 +74,36 @@ namespace Blurlib.ECS.Managers
             return null;
         }
 
-        public Component Get(string tag)
-        {
-            throw new NotImplementedException();
-        }
-
-        public T Get<T>(string tag) where T : Component
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Component> GetAll(string tag)
         {
-            throw new NotImplementedException();
+            foreach (Component component in _components)
+            {
+                if (component.Tags.Contains(tag))
+                {
+                    yield return component;
+                }
+            }
+        }
+
+        public IEnumerable<Component> GetAll(IEnumerable<string> tags)
+        {
+            bool add;
+            foreach (Component component in _components)
+            {
+                add = false;
+                foreach (String tag in tags)
+                {
+                    if (component.Tags.Contains(tag))
+                    {
+                        add = true;
+                        break;
+                    }
+                }
+                if (add)
+                {
+                    yield return component;
+                }
+            }
         }
 
         public IEnumerable<T> GetAll<T>() where T : Component
@@ -115,7 +132,10 @@ namespace Blurlib.ECS.Managers
 
         public void Add(params Component[] components)
         {
-            Add(components as IEnumerable<Component>);
+            foreach (Component component in components)
+            {
+                Add(component);
+            }
         }
 
         public void Remove(Component component)
@@ -147,27 +167,37 @@ namespace Blurlib.ECS.Managers
 
         public void Remove(params Component[] components)
         {
-            Remove(components as IEnumerable<Component>);
+            foreach (Component component in components)
+            {
+                Remove(component);
+            }
         }
 
         public void Remove(string tag)
         {
-            throw new NotImplementedException();
+            Remove(GetAll(tag));
         }
 
         public void RemoveAll<T>() where T : Component
         {
-            Remove(GetAll<T>() as IEnumerable<Component>);
+            Remove(GetAll<T>());
         }
 
-        public bool Contain(Component component)
+        public bool Contains(Component component)
         {
-            throw new NotImplementedException();
+            return _components.Contains(component);
         }
 
-        public bool Contain<T>() where T : Component
+        public bool Contains<T>() where T : Component
         {
-            throw new NotImplementedException();
+            foreach (Component component in _components)
+            {
+                if (component is T)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public IEnumerator<Component> GetEnumerator()

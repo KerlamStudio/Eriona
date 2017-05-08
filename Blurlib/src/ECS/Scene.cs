@@ -40,19 +40,21 @@ namespace Blurlib.ECS
             _entities = new EntitiesManager(this);
         }
 
+        #region Entities Manager
+
         public T Get<T>() where T : Entity
         {
             return _entities.Get<T>();
         }
 
-        public Entity Get(string tag)
+        public Entity Get(string id)
         {
-            return _entities.Get(tag);
+            return _entities.Get(id);
         }
 
-        public T Get<T>(string tag) where T : Entity
+        public T Get<T>(string id) where T : Entity
         {
-            return _entities.Get<T>(tag);
+            return _entities.Get<T>(id);
         }
 
         public IEnumerable<Entity> GetAll(string tag)
@@ -60,12 +62,17 @@ namespace Blurlib.ECS
             return _entities.GetAll(tag);
         }
 
+        public IEnumerable<Entity> GetAll(IEnumerable<string> tags)
+        {
+            return _entities.GetAll(tags);
+        }
+
         public IEnumerable<T> GetAll<T>() where T : Entity
         {
             return _entities.GetAll<T>();
         }
 
-        public void Add<T>(T entity) where T : Entity
+        public void Add(Entity entity)
         {
             _entities.Add(entity);
         }
@@ -102,7 +109,7 @@ namespace Blurlib.ECS
 
         public void RemoveById(string id)
         {
-            _entities.RemoveById(id);
+            _entities.Remove(id);
         }
 
         public void Remove(string tag)
@@ -110,7 +117,7 @@ namespace Blurlib.ECS
             _entities.Remove(tag);
         }
 
-        public void RemoveAll(string[] tags)
+        public void RemoveAll(IEnumerable<string> tags)
         {
             _entities.RemoveAll(tags);
         }
@@ -120,15 +127,24 @@ namespace Blurlib.ECS
             _entities.RemoveAll<T>();
         }
 
-        public bool Contain(Entity entity)
+        public bool Contains(Entity entity)
         {
-            return _entities.Contain(entity);
+            return _entities.Contains(entity);
         }
 
-        public bool Contain(string id)
+        public bool Contains(string id)
         {
-            return _entities.Contain(id);
+            return _entities.Contains(id);
         }
+
+        public bool Contains<T>() where T : Entity
+        {
+            return _entities.Contains<T>();
+        }
+
+        #endregion // Entities Manager
+
+        #region Cycle
 
         public abstract void Begin();
 
@@ -153,5 +169,6 @@ namespace Blurlib.ECS
                 entity.OnRemove();
         }
 
+        #endregion // Cycle
     }
 }

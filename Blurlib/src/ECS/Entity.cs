@@ -80,19 +80,11 @@ namespace Blurlib.ECS
                 _components.Add(components);
         }
 
+        #region Components Management
+
         public T Get<T>() where T : Component
         {
             return _components.Get<T>();
-        }
-
-        public Component Get(string tag)
-        {
-            return _components.Get(tag);
-        }
-
-        public T Get<T>(string tag) where T : Component
-        {
-            return _components.Get<T>(tag);
         }
 
         public IEnumerable<Component> GetAll(string tag)
@@ -100,6 +92,11 @@ namespace Blurlib.ECS
             return _components.GetAll(tag);
         }
 
+        public IEnumerable<Component> GetAll(IEnumerable<string> tags)
+        {
+            return _components.GetAll(tags);
+        }
+        
         public IEnumerable<T> GetAll<T>() where T : Component
         {
             return _components.GetAll<T>();
@@ -150,6 +147,20 @@ namespace Blurlib.ECS
             _components.RemoveAll<T>();
         }
 
+        public bool Contains(Component component)
+        {
+            return _components.Contains(component);
+        }
+
+        public bool Contains<T>() where T : Component
+        {
+            return _components.Contains<T>();
+        }
+
+        #endregion // Coponent Management
+
+        #region Cycle
+
         public virtual void Initialize()
         {
         }
@@ -180,6 +191,8 @@ namespace Blurlib.ECS
         public virtual void Update()
         {
             _components.Update();
-        }        
+        }
+
+        #endregion // Cycle
     }
 }

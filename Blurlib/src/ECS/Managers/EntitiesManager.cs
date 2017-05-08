@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Blurlib.Util;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,19 +79,60 @@ namespace Blurlib.ECS.Managers
             return null;
         }
 
-        public Entity Get(string tag)
+        public Entity Get(string id)
         {
-            throw new NotImplementedException();
+            foreach (Entity entity in _entities)
+            {
+                if (entity.Id == id)
+                {
+                    return entity;
+                }
+            }
+            return null;
         }
 
-        public T Get<T>(string tag)
+        public T Get<T>(string id) where T : Entity
         {
-            throw new NotImplementedException();
+            foreach (Entity entity in _entities)
+            {
+                if (entity.Id == id)
+                {
+                    return entity as T;
+                }
+            }
+            return null;
         }
 
         public IEnumerable<Entity> GetAll(string tag)
         {
-            throw new NotImplementedException();
+            foreach (Entity entity in _entities)
+            {
+                if (entity.Tags.Contains(tag))
+                {
+                    yield return entity;
+                }
+            }
+        }
+
+        public IEnumerable<Entity> GetAll(IEnumerable<string> tags)
+        {
+            bool add;
+            foreach (Entity entity in _entities)
+            {
+                add = false;
+                foreach (String tag in tags)
+                {
+                    if (entity.Tags.Contains(tag))
+                    {
+                        add = true;
+                        break;
+                    }
+                }
+                if (add)
+                {
+                    yield return entity;
+                }
+            }
         }
 
         public IEnumerable<T> GetAll<T>() where T : Entity
@@ -119,7 +161,10 @@ namespace Blurlib.ECS.Managers
 
         public void Add(params Entity[] entities)
         {
-            Add(entities as IEnumerable<Entity>);
+            foreach (Entity entity in entities)
+            {
+                Add(entity);
+            }
         }
 
         public void Remove(Entity entity)
@@ -151,37 +196,59 @@ namespace Blurlib.ECS.Managers
 
         public void Remove(params Entity[] entities)
         {
-            Remove(entities as IEnumerable<Entity>);
+            foreach (Entity entity in entities)
+            {
+                Remove(entity);
+            }
         }
 
         public void RemoveById(string id)
         {
-            throw new NotImplementedException();
+            Remove(Get(id));
         }
 
         public void Remove(string tag)
         {
-            throw new NotImplementedException();
+            Remove(GetAll(tag));
         }
 
-        public void RemoveAll(string[] tags)
+        public void RemoveAll(IEnumerable<string> tags)
         {
-            throw new NotImplementedException();
+            Remove(GetAll(tags));
         }
 
         public void RemoveAll<T>() where T : Entity
         {
-            Remove(GetAll<T>() as IEnumerable<Entity>);
+            Remove(GetAll<T>());
         }
 
-        public bool Contain(Entity entity)
+        public bool Contains(Entity entity)
         {
-            throw new NotImplementedException();
+            return _entities.Contains(entity);
         }
 
-        public bool Contain(string id)
+        public bool Contains(string id)
         {
-            throw new NotImplementedException();
+            foreach (Entity entity in _entities)
+            {
+                if (entity.Id == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool Contains<T>() where T : Entity
+        {
+            foreach (Entity entity in _entities)
+            {
+                if (entity is T)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public IEnumerator<Entity> GetEnumerator()
