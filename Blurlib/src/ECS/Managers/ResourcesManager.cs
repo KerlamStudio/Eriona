@@ -8,5 +8,9 @@ namespace Blurlib.ECS.Managers
 {
     public class ResourcesManager
     {
+        public ResourcesManager()
+        {
+
+        }
     }
 }

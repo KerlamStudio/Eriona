@@ -79,6 +79,11 @@ namespace Blurlib.ECS.Managers
             throw new NotImplementedException();
         }
 
+        public T Get<T>(string tag) where T : Component
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Component> GetAll(string tag)
         {
             throw new NotImplementedException();
@@ -91,80 +96,68 @@ namespace Blurlib.ECS.Managers
                     yield return component as T;
         }
 
-        public bool Add(Component component)
+        public void Add(Component component)
         {
             if (!_components.Contains(component) && !_componentsToAdd.Contains(component))
             {
                 _componentsToAdd.Add(component);
                 component.Initialize();
-                return true;
             }
-            return false;
         }
 
-        public bool Add(IEnumerable<Component> components)
+        public void Add(IEnumerable<Component> components)
         {
-            // If a component is not added we return false
-            bool getOneFalse = true;
-
             foreach (Component component in components)
             {
-                if (!Add(component))
-                    getOneFalse = false;
+                Add(component);
             }
-            return getOneFalse;
         }
 
-        public bool Add(params Component[] components)
+        public void Add(params Component[] components)
         {
-            return Add(components as IEnumerable<Component>);
+            Add(components as IEnumerable<Component>);
         }
 
-        public bool Remove(Component component)
+        public void Remove(Component component)
         {
             if (_components.Contains(component) && !_componentsToRemove.Contains(component))
             {
                 _componentsToRemove.Add(component);
-                return true;
             }
-            return false;
         }
 
-        public bool Remove<T>() where T : Component
+        public void Remove<T>() where T : Component
         {
             foreach (Component component in _components)
+            {
                 if (component is T)
                 {
                     Remove(component);
-                    return true;
                 }
-            return false;
+            }
         }
 
-        public bool Remove(IEnumerable<Component> components)
+        public void Remove(IEnumerable<Component> components)
         {
-            // If a component is not added we return false
-            bool getOneFalse = true;
-
             foreach (Component component in components)
-                if (!Remove(component))
-                    getOneFalse = false;
-            return getOneFalse;
+            {
+                Remove(component);
+            }
         }
 
-        public bool Remove(params Component[] components)
+        public void Remove(params Component[] components)
         {
-            return Remove(components as IEnumerable<Component>);
+            Remove(components as IEnumerable<Component>);
         }
 
-        public bool Remove(string tag)
+        public void Remove(string tag)
         {
             throw new NotImplementedException();
         }
 
-        public bool RemoveAll<T>() where T : Component
+        public void RemoveAll<T>() where T : Component
         {
-            return Remove(GetAll<T>() as IEnumerable<Component>);
+            Remove(GetAll<T>() as IEnumerable<Component>);
         }
 
         public bool Contain(Component component)

@@ -42,57 +42,50 @@ namespace Blurlib.Render
         
         // -TODO-: Finish method
 
-        public bool Add(IDraw drawable)
+        public void Add(IDraw drawable)
         {
-            if (!_drawList.Contains(drawable) && drawable.Visible)
+            if (!_drawList.Contains(drawable) && drawable.Visible && !_toAdd.Contains(drawable))
             {
                 _toAdd.Add(drawable);
-                return true;
-            }
-
-            return false;
+            }            
         }
 
-        public bool Remove(IDraw drawable)
+        public void Remove(IDraw drawable)
         {
-            if (_drawList.Contains(drawable))
+            if (_drawList.Contains(drawable) && !_toRemove.Contains(drawable))
             {
                 _toRemove.Add(drawable);
-                return true;
             }
-            return false;
         }
 
-        public bool Remove(IEnumerable<IDraw> drawables)
+        public void Remove(IEnumerable<IDraw> drawables)
         {
-            // If a component is not added we return false
-            bool getOneFalse = true;
-
             foreach (IDraw drawable in drawables)
-                if (!Remove(drawable))
-                    getOneFalse = false;
-            return getOneFalse;
+            {
+                Remove(drawable);
+            }
         }
 
-        public bool AddComponent(Component component)
+        public void AddComponent(Component component)
         {
             if (component is IDraw)
             {
-                return Add(component as IDraw);
+                Add(component as IDraw);
             }
-            return false;
         }
 
-        public bool RemoveComponent(Component component)
+        public void RemoveComponent(Component component)
         {
             if (component is IDraw)
             {
-                return Remove(component as IDraw);
+                Remove(component as IDraw);
             }
-            return false;
         }
 
-        
+        public bool Contain(IDraw drawable)
+        {
+            throw new NotImplementedException();
+        }        
 
         public bool AddEntity(Entity entity)
         {

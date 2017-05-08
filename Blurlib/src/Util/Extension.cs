@@ -109,7 +109,7 @@ namespace Blurlib.Util
             }
         }
 
-        static void Bechmark(Action m1, Action m2, int loop = 100000000)
+        public static void Benchmark(Action m1, Action m2, int loop = 100000000)
         {
             m1();
             m2();

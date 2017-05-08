@@ -49,8 +49,7 @@ namespace Blurlib
         {
             get { return _nextScene; }
         }
-
-        // -TODO-: RenderManager
+        
         // -TODO-: InputManager
         public RenderManager RenderManager;
 
@@ -64,7 +63,6 @@ namespace Blurlib
             _windowHeight = height;
             WindowTitle = title;
             IsMouseVisible = mouseVisible;
-            IsFixedTimeStep = true;
             
 
             _graphics = new GraphicsDeviceManager(this);
@@ -89,6 +87,7 @@ namespace Blurlib
             _graphics.GraphicsProfile = GraphicsProfile.HiDef;
 
             _graphics.SynchronizeWithVerticalRetrace = true;
+            IsFixedTimeStep = true;
             // or
             // -TODO-: Test difference
             /*             

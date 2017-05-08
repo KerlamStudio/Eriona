@@ -90,6 +90,11 @@ namespace Blurlib.ECS
             return _components.Get(tag);
         }
 
+        public T Get<T>(string tag) where T : Component
+        {
+            return _components.Get<T>(tag);
+        }
+
         public IEnumerable<Component> GetAll(string tag)
         {
             return _components.GetAll(tag);
@@ -100,49 +105,49 @@ namespace Blurlib.ECS
             return _components.GetAll<T>();
         }
 
-        public bool Add(Component component)
+        public void Add(Component component)
         {
-            return _components.Add(component);
+            _components.Add(component);
         }
 
-        public bool Add(IEnumerable<Component> components)
+        public void Add(IEnumerable<Component> components)
         {
-            return _components.Add(components);
+            _components.Add(components);
         }
 
-        public bool Add(params Component[] components)
+        public void Add(params Component[] components)
         {
-            return _components.Add(components);
+            _components.Add(components);
         }
 
-        public bool Remove<T>(T component) where T : Component
+        public void Remove<T>(T component) where T : Component
         {
-            return _components.Remove(component);
+            _components.Remove(component);
         }
 
-        public bool Remove(IEnumerable<Component> components)
+        public void Remove(IEnumerable<Component> components)
         {
-            return _components.Remove(components);
+            _components.Remove(components);
         }
 
-        public bool Remove(params Component[] components)
+        public void Remove(params Component[] components)
         {
-            return _components.Remove(components);
+            _components.Remove(components);
         }
 
-        public bool Remove<T>() where T : Component
+        public void Remove<T>() where T : Component
         {
-            return _components.Remove<T>();
+            _components.Remove<T>();
         }
 
-        public bool Remove(string tag)
+        public void Remove(string tag)
         {
-            return _components.Remove(tag);
+            _components.Remove(tag);
         }
 
-        public bool RemoveAll<T>() where T : Component
+        public void RemoveAll<T>() where T : Component
         {
-            return _components.RemoveAll<T>();
+            _components.RemoveAll<T>();
         }
 
         public virtual void Initialize()

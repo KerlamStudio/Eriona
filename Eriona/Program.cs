@@ -20,6 +20,7 @@ namespace Eriona
                 game.Run();
             Console.WriteLine("Appuyez sur Entrée pour continuer . . .");
             Console.Read();
+
         }
     }
 }

@@ -60,7 +60,6 @@
     <Compile Include="src\Render\RenderManager.cs" />
     <Compile Include="src\TODO.cs" />
     <Compile Include="src\Util\Extension.cs" />
-    <Compile Include="src\Util\Manager.cs" />
     <Compile Include="src\World\Transform.cs" />
     <Compile Include="src\World\World.cs" />
   </ItemGroup>

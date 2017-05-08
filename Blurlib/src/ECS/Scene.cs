@@ -47,12 +47,17 @@ namespace Blurlib.ECS
 
         public Entity Get(string tag)
         {
-            throw new NotImplementedException();
+            return _entities.Get(tag);
+        }
+
+        public T Get<T>(string tag) where T : Entity
+        {
+            return _entities.Get<T>(tag);
         }
 
         public IEnumerable<Entity> GetAll(string tag)
         {
-            throw new NotImplementedException();
+            return _entities.GetAll(tag);
         }
 
         public IEnumerable<T> GetAll<T>() where T : Entity
@@ -60,59 +65,59 @@ namespace Blurlib.ECS
             return _entities.GetAll<T>();
         }
 
-        public bool Add<T>(T entity) where T : Entity
+        public void Add<T>(T entity) where T : Entity
         {
-            return _entities.Add(entity);
+            _entities.Add(entity);
         }
 
-        public bool Add(IEnumerable<Entity> entities)
+        public void Add(IEnumerable<Entity> entities)
         {
-            return _entities.Add(entities);
+            _entities.Add(entities);
         }
 
-        public bool Add(params Entity[] entities)
+        public void Add(params Entity[] entities)
         {
-            return _entities.Add(entities);
+            _entities.Add(entities);
         }
 
-        public bool Remove(Entity entity)
+        public void Remove(Entity entity)
         {
-            return _entities.Remove(entity);
+            _entities.Remove(entity);
         }
 
-        public bool Remove<T>() where T : Entity
+        public void Remove<T>() where T : Entity
         {
-            return _entities.Remove<T>();
+            _entities.Remove<T>();
         }
 
-        public bool Remove(IEnumerable<Entity> entities)
+        public void Remove(IEnumerable<Entity> entities)
         {
-            return _entities.Remove(entities);
+            _entities.Remove(entities);
         }
 
-        public bool Remove(params Entity[] entities)
+        public void Remove(params Entity[] entities)
         {
-            return _entities.Remove(entities);
+            _entities.Remove(entities);
         }
 
-        public bool RemoveById(string id)
+        public void RemoveById(string id)
         {
-            return _entities.RemoveById(id);
+            _entities.RemoveById(id);
         }
 
-        public bool Remove(string tag)
+        public void Remove(string tag)
         {
-            return _entities.Remove(tag);
+            _entities.Remove(tag);
         }
 
-        public bool RemoveAll(string[] tags)
+        public void RemoveAll(string[] tags)
         {
-            return _entities.RemoveAll(tags);
+            _entities.RemoveAll(tags);
         }
 
-        public bool RemoveAll<T>() where T : Entity
+        public void RemoveAll<T>() where T : Entity
         {
-            return _entities.RemoveAll<T>();
+            _entities.RemoveAll<T>();
         }
 
         public bool Contain(Entity entity)

@@ -14,7 +14,7 @@ namespace Blurlib.ECS.Managers
         private List<Entity> _entities;
         private List<Entity> _entitiesToAdd;
         private List<Entity> _entitiesToRemove;
-        
+
         public EntitiesManager(Scene scene)
         {
             Scene = scene;
@@ -83,6 +83,11 @@ namespace Blurlib.ECS.Managers
             throw new NotImplementedException();
         }
 
+        public T Get<T>(string tag)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Entity> GetAll(string tag)
         {
             throw new NotImplementedException();
@@ -95,90 +100,78 @@ namespace Blurlib.ECS.Managers
                     yield return entity as T;
         }
 
-        public bool Add(Entity entity)
+        public void Add(Entity entity)
         {
             if (!_entities.Contains(entity) && !_entitiesToAdd.Contains(entity))
             {
                 _entitiesToAdd.Add(entity);
                 entity.Initialize();
-                return true;
             }
-            return false;
         }
 
-        public bool Add(IEnumerable<Entity> entities)
+        public void Add(IEnumerable<Entity> entities)
         {
-            // If an entity is not added we return false
-            bool getOneFalse = true;
-
             foreach (Entity entity in entities)
             {
-                if (!Add(entity))
-                    getOneFalse = false;
+                Add(entity);
             }
-            return getOneFalse;
         }
 
-        public bool Add(params Entity[] entities)
+        public void Add(params Entity[] entities)
         {
-            return Add(entities as IEnumerable<Entity>);
+            Add(entities as IEnumerable<Entity>);
         }
 
-        public bool Remove(Entity entity)
+        public void Remove(Entity entity)
         {
             if (_entities.Contains(entity) && !_entitiesToRemove.Contains(entity))
             {
                 _entitiesToRemove.Add(entity);
-                return true;
             }
-            return false;
         }
 
-        public bool Remove<T>() where T : Entity
+        public void Remove<T>() where T : Entity
         {
             foreach (Entity entity in _entities)
+            {
                 if (entity is T)
                 {
                     Remove(entity);
-                    return true;
                 }
-            return false;
+            }
         }
 
-        public bool Remove(IEnumerable<Entity> entities)
+        public void Remove(IEnumerable<Entity> entities)
         {
-            // If an entity is not added we return false
-            bool getOneFalse = true;
-
             foreach (Entity entity in entities)
-                if (!Remove(entity))
-                    getOneFalse = false;
-            return getOneFalse;
+            {
+                Remove(entity);
+            }
         }
 
-        public bool Remove(params Entity[] entities)
+        public void Remove(params Entity[] entities)
         {
-            return Remove(entities as IEnumerable<Entity>);
+            Remove(entities as IEnumerable<Entity>);
         }
 
-        public bool RemoveById(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Remove(string tag)
+        public void RemoveById(string id)
         {
             throw new NotImplementedException();
         }
 
-        public bool RemoveAll(string[] tags)
+        public void Remove(string tag)
         {
             throw new NotImplementedException();
         }
 
-        public bool RemoveAll<T>() where T : Entity
+        public void RemoveAll(string[] tags)
         {
-            return Remove(GetAll<T>() as IEnumerable<Entity>);
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAll<T>() where T : Entity
+        {
+            Remove(GetAll<T>() as IEnumerable<Entity>);
         }
 
         public bool Contain(Entity entity)
