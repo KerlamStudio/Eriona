@@ -7,8 +7,10 @@ using System.Text;
 
 namespace Blurlib.ECS
 {
-    public abstract class Scene
+    public abstract class Scene : IDisposable
     {
+        public bool disposed = false;
+
         private string _id;
         public string Id
         {
@@ -23,7 +25,7 @@ namespace Blurlib.ECS
             set { throw new NotImplementedException(); }
         }
         
-        public ResourcesManager SceneResources;
+        public ResourcesManager Resources;
 
         protected Color _backgroundColor;
 
@@ -35,7 +37,7 @@ namespace Blurlib.ECS
             _backgroundColor = Color.CornflowerBlue;
             _pause = pause;
 
-            SceneResources = new ResourcesManager();
+            Resources = new ResourcesManager();
 
             _entities = new EntitiesManager(this);
         }
@@ -146,7 +148,15 @@ namespace Blurlib.ECS
 
         #region Cycle
 
-        public abstract void Begin();
+        public virtual void LoadContent()
+        {
+
+        }
+
+        public virtual void Begin()
+        {
+
+        }
 
         public virtual void BeforeUpdate()
         {
@@ -170,5 +180,25 @@ namespace Blurlib.ECS
         }
 
         #endregion // Cycle
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                Resources.Dispose();
+            }
+
+            disposed = true;
+        }
     }
 }

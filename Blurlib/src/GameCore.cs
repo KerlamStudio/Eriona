@@ -127,12 +127,17 @@ namespace Blurlib
             }
 
             // Switch to the next scene
+            // =TODO=: pass the previous scene as argument to the next
             if (_scene != _nextScene && _nextScene.IsNotNull())
             {
                 _scene?.End();
 
+                _scene?.Dispose();
+
                 _scene = _nextScene;
-                
+
+                _scene?.LoadContent();
+
                 _scene?.Begin();
             }
 
@@ -152,6 +157,8 @@ namespace Blurlib
             base.OnExiting(sender, args);
 
             _scene?.End();
+
+            _scene?.Dispose();
         }
     }
 }

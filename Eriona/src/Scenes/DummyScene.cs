@@ -19,10 +19,17 @@ namespace Eriona.Scenes
         {
         }
 
+        public override void LoadContent()
+        {
+            base.LoadContent();
+            Resources.LoadAndAdd<Texture2D>("dummy");
+        }
+
         public override void Begin()
         {
+            base.Begin();
             "Begin DummyScene [. . .]".Printl();
-            Add(new DummyEntity(new Sprite(GameCore.Instance.Content.Load<Texture2D>("dummy"))));
+            Add(new DummyEntity(new Sprite(Resources.Get<Texture2D>("dummy"))));
         }
 
         public override void BeforeUpdate()
@@ -38,7 +45,7 @@ namespace Eriona.Scenes
             base.Update();
             i++;
             if (i == 400)
-                Add(new DummyEntity(new Sprite(GameCore.Instance.Content.Load<Texture2D>("dummy"), true, 2)));
+                Add(new DummyEntity(new Sprite(Resources.Get<Texture2D>("dummy"), true, 2)));
             if (i < 400 )
                 Get<DummyEntity>().Get<Sprite>().LocalPosition.X += 1;
             else
