@@ -54,7 +54,7 @@
     <Compile Include="src\ECS\Managers\ResourcesManager.cs" />
     <Compile Include="src\ECS\Scene.cs" />
     <Compile Include="src\GameCore.cs" />
-    <Compile Include="src\Input\InputManager.cs" />
+    <Compile Include="src\Input\InputsManager.cs" />
     <Compile Include="src\Render\IDraw.cs" />
     <Compile Include="src\Render\PProcess.cs" />
     <Compile Include="src\Render\RenderManager.cs" />

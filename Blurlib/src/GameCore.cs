@@ -1,4 +1,5 @@
 ﻿using Blurlib.ECS;
+using Blurlib.Input;
 using Blurlib.Render;
 using Blurlib.Util;
 using Microsoft.Xna.Framework;
@@ -50,14 +51,16 @@ namespace Blurlib
             get { return _nextScene; }
         }
         
-        // -TODO-: InputManager
         public RenderManager RenderManager;
+
+        public InputsManager InputsManager;
 
         public GameCore(int width, int height, string title, bool mouseVisible=true, string contentDir="Content")
         {
             Instance = this;
 
             RenderManager = new RenderManager();
+            InputsManager = new InputsManager();
 
             _windowWidth = width;
             _windowHeight = height;
@@ -116,7 +119,7 @@ namespace Blurlib
 
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            // -TODO-: InputManager Upadate
+            InputsManager.Update();
 
             // Scene update
             if (_scene.IsNotNull() && !_scene.Pause)
