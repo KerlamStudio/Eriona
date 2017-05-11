@@ -43,7 +43,7 @@ namespace Blurlib.ECS.Managers
             }
         }
 
-        private void RefreshLists()
+        public void RefreshLists()
         {
             if (_componentsToAdd.Count > 0)
             {

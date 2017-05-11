@@ -23,13 +23,14 @@ namespace Eriona.Scenes
         {
             base.LoadContent();
             Resources.LoadAndAdd<Texture2D>("dummy");
+            Resources.LoadAndAdd<Texture2D>("flamme");
         }
 
         public override void Begin()
         {
             base.Begin();
             "Begin DummyScene [. . .]".Printl();
-            Add(new DummyEntity(new Sprite(Resources.Get<Texture2D>("dummy"))));
+            Add(new DummyEntity());
         }
 
         public override void BeforeUpdate()
@@ -43,13 +44,6 @@ namespace Eriona.Scenes
         public override void Update()
         {
             base.Update();
-            i++;
-            if (i == 400)
-                Add(new DummyEntity(new Sprite(Resources.Get<Texture2D>("dummy"), true, 2)));
-            if (i < 400 )
-                Get<DummyEntity>().Get<Sprite>().LocalPosition.X += 1;
-            else
-                Get<DummyEntity>().Get<Sprite>().LocalPosition.X -= 1;
 
             "Update DummyScene [. . .]".Printl();
             //("Elapsed millisecond : " + GameCore.DeltaTime.ToString()).Printl();

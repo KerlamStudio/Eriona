@@ -164,6 +164,7 @@ namespace Blurlib.ECS
 
         public virtual void Awake()
         {
+            _components.RefreshLists();
         }
 
         public virtual void OnRemove()

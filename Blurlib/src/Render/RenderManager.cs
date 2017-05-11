@@ -131,11 +131,18 @@ namespace Blurlib.Render
             {
                 if (drawable.Visible)
                 {
-                    spriteBatch.Draw(
-                        drawable.Texture, 
-                        drawable.TexturePosition + drawable.TextureLocalTranslate, 
-                        drawable.TextureClip, 
-                        drawable.TextureColorFilter);
+                    try
+                    {
+                        spriteBatch.Draw(
+                            drawable.Texture,
+                            drawable.TexturePosition + drawable.TextureLocalTranslate,
+                            drawable.TextureClip,
+                            drawable.TextureColorFilter);
+                    }
+                    catch (Exception e)
+                    {
+                        "Can't draw an entity".Printl();
+                    }
                 }
                 else
                 {
