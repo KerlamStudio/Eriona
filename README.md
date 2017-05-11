@@ -5,7 +5,7 @@
 - Download the repo as .zip and extract it.
 - Open the file Eriona.sln in VisualStudio (peferably version 2017)
 - Generate the entire solution
-- Execute the fil: Eriona-master\Eriona\bin\DesktopGL\AnyCPU\Debug\Eriona.exe
+- Execute the file: Eriona-master\Eriona\bin\DesktopGL\AnyCPU\Debug\Eriona.exe
 
 # Projects
 
