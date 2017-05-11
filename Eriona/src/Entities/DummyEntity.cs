@@ -1,4 +1,5 @@
-﻿using Blurlib.ECS;
+﻿using Blurlib;
+using Blurlib.ECS;
 using Blurlib.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -49,6 +50,11 @@ namespace Eriona.Entities
         public override void Update()
         {
             base.Update();
+
+            if (GameCore.Instance.InputsManager.IsDown(Microsoft.Xna.Framework.Input.Keys.Left))
+            {
+                WorldPosition.X += 5;
+            }
         }
     }
 }
