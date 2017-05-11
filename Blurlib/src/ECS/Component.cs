@@ -75,7 +75,7 @@ namespace Blurlib.ECS
             set
             {
                 _transform = value;
-                LocalPosition = Entity.WorldTransform.Position - value.Position;
+                LocalPosition = Entity.WorldPosition - value.Position;
             }
         }
         public Vector2 LocalPosition;
@@ -84,7 +84,7 @@ namespace Blurlib.ECS
         {
             get
             {
-                return Entity.WorldTransform.Position + LocalPosition;
+                return Entity.WorldPosition + LocalPosition;
             }
         }
 

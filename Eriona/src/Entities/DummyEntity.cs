@@ -1,5 +1,6 @@
 ﻿using Blurlib.ECS;
 using Blurlib.World;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Eriona.Entities
 {
     public class DummyEntity : Entity
     {
-        public DummyEntity(params Component[] components) : base("Dummy", new Transform(0,150,19,34), true, true, true)
+        public DummyEntity(params Component[] components) : base("Dummy", new Vector2(19,34), true, true, true)
         {
             Add(components);
         }

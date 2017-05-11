@@ -20,7 +20,9 @@ namespace Blurlib.ECS
 
         public Scene Scene { get; private set; }
 
-        public Transform WorldTransform;
+        private ComponentsManager _components;
+
+        public Vector2 WorldPosition;
 
         private bool _active;
         public bool Active
@@ -43,38 +45,28 @@ namespace Blurlib.ECS
         }
 
         public bool Visible;
+        
+        public bool Collidable;
 
-        private bool _collidable;
-        public bool Collidable
-        {
-            get { return _collidable; }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        private ComponentsManager _components;
-
-        public Entity(string id = null, Transform worldTransform = null, bool active = false, bool visible = false, bool collidable = false, params Component[] components)
+        public Entity(string id, Vector2 worldPosition, bool active = false, bool visible = false, bool collidable = false, params Component[] components)
         {
             _active = active;
             Visible = visible;
-            //Collidable = collidable;
+            Collidable = collidable;
 
             _components = new ComponentsManager(this);
 
             Tags = new List<string>();
 
-            if (id.IsNull())
+            if (id.Equals(string.Empty))
                 _id = Extension.GenerateUniqueId("Entity");
             else
                 _id = id;
 
-            if (worldTransform.IsNull())
-                WorldTransform = new Transform(0, 0, 0, 0);
+            if (worldPosition.IsNull())
+                WorldPosition = Vector2.Zero;
             else
-                WorldTransform = worldTransform;
+                WorldPosition = worldPosition;
 
             if (components.Length > 0)
                 _components.Add(components);
