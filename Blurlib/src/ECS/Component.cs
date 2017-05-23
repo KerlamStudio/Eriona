@@ -3,7 +3,6 @@ using Blurlib.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Blurlib.ECS
 {
@@ -43,14 +42,6 @@ namespace Blurlib.ECS
             set
             {
                 _visible = value;
-                if (_visible)
-                {
-                    GameCore.Instance.RenderManager.AddComponent(this);
-                }
-                else if (!_visible)
-                {
-                    GameCore.Instance.RenderManager.RemoveComponent(this);
-                }
             }
         }
 
@@ -95,7 +86,7 @@ namespace Blurlib.ECS
         public Component(bool active=false, bool visible=false, bool collidable=false)
         {
             _active = active;
-            Visible = visible;
+            _visible = visible;
             //Collidable = collidable;
             _transform = new Transform();
             LocalPosition = new Vector2();
@@ -114,7 +105,6 @@ namespace Blurlib.ECS
         public virtual void OnAdded(Entity entity)
         {
             Entity = entity;
-            Visible = _visible;
         }
 
         public virtual void OnRemove()

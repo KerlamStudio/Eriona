@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Blurlib.World
+﻿namespace Blurlib.World
 {
     public class World
     {

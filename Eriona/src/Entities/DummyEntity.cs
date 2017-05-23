@@ -1,14 +1,8 @@
 ﻿using Blurlib;
 using Blurlib.ECS;
 using Blurlib.ECS.Components;
-using Blurlib.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Eriona.Entities
 {
@@ -59,11 +53,11 @@ namespace Eriona.Entities
         public override void Update()
         {
             base.Update();
-            if (GameCore.Instance.InputsManager.IsReleased(Microsoft.Xna.Framework.Input.Keys.Space))
+            if (GameCore.InputsManager.IsReleased(Microsoft.Xna.Framework.Input.Keys.Space))
             {
                 Get<Animation>().ChangeAnimation("test2");
             }
-            else if (GameCore.Instance.InputsManager.IsPressed(Microsoft.Xna.Framework.Input.Keys.Space))
+            else if (GameCore.InputsManager.IsPressed(Microsoft.Xna.Framework.Input.Keys.Space))
             {
                 Get<Animation>().ChangeAnimation("test");
             }

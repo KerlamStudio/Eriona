@@ -5,8 +5,6 @@ using Blurlib.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Blurlib
 {
@@ -53,7 +51,7 @@ namespace Blurlib
         
         public RenderManager RenderManager;
 
-        public InputsManager InputsManager;
+        public static InputsManager InputsManager;
 
         public GameCore(int width, int height, string title, bool mouseVisible=true, string contentDir="Content")
         {

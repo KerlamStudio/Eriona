@@ -3,9 +3,6 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blurlib.ECS.Managers
 {
@@ -120,7 +117,7 @@ namespace Blurlib.ECS.Managers
             catch (Exception e)
             {
                 // -TODO-: Replace by log
-                ("Unknow asset : '" + id + "'").Printl();
+                (e.ToString() + " '" + id + "'").Printl();
             }
         }
 

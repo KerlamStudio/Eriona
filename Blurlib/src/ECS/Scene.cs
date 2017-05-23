@@ -1,9 +1,7 @@
 ﻿using Blurlib.ECS.Managers;
-using Blurlib.ECS;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Blurlib.ECS
 {
@@ -29,7 +27,7 @@ namespace Blurlib.ECS
 
         protected Color _backgroundColor;
 
-        private EntitiesManager _entities;
+        protected EntitiesManager _entities;
 
         public Scene(string id, bool pause = false)
         {

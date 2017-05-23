@@ -1,13 +1,6 @@
 ﻿using Blurlib.ECS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Blurlib;
-using Microsoft.Xna.Framework;
 using Blurlib.Util;
-using Blurlib.ECS.Components;
 using Microsoft.Xna.Framework.Graphics;
 using Eriona.Entities;
 
@@ -15,6 +8,7 @@ namespace Eriona.Scenes
 {
     public class DummyScene : Scene
     {
+        DummyEntity dummy;
         public DummyScene(string id, bool pause = false) : base(id, pause)
         {
         }
@@ -30,7 +24,8 @@ namespace Eriona.Scenes
         {
             base.Begin();
             "Begin DummyScene [. . .]".Printl();
-            Add(new DummyEntity());
+            dummy = new DummyEntity();
+            Add(dummy);
         }
 
         public override void BeforeUpdate()
@@ -48,6 +43,12 @@ namespace Eriona.Scenes
             "Update DummyScene [. . .]".Printl();
             //("Elapsed millisecond : " + GameCore.DeltaTime.ToString()).Printl();
             "".Printl();
+            
+            if (GameCore.InputsManager.IsPressed(Microsoft.Xna.Framework.Input.Keys.A))
+            {
+                dummy.Visible = !dummy.Visible;
+            }
+            
         }
 
         public override void AfterUpdate()

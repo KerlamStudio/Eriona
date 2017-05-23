@@ -1,7 +1,4 @@
-﻿using Blurlib.Render;
-using Blurlib.Util;
-using System;
-using System.Diagnostics;
+﻿using System;
 
 namespace Eriona
 {
