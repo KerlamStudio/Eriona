@@ -1,9 +1,4 @@
 ﻿using Blurlib.Render;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Blurlib.Util;
@@ -32,5 +27,13 @@ namespace Blurlib.ECS.Components
         public Vector2 TextureLocalTranslate { get; set; }
 
         public Color TextureColorFilter { get; set; }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(Texture,
+                            TexturePosition + TextureLocalTranslate,
+                            TextureClip,
+                            TextureColorFilter);
+        }
     }
 }

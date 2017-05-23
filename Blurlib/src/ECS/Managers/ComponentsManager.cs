@@ -1,10 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections;
+using Blurlib.Render;
 
 namespace Blurlib.ECS.Managers
 {
@@ -51,6 +48,10 @@ namespace Blurlib.ECS.Managers
                 {
                     _components.Add(component);
                     component.OnAdded(Entity);
+                    if (component is IDraw)
+                    {
+                        GameCore.Instance.RenderManager.Add(component as IDraw);
+                    }
                 }
                 _componentsToAdd.Clear();
             }
@@ -61,6 +62,10 @@ namespace Blurlib.ECS.Managers
                 {
                     _components.Remove(component);
                     component.OnRemove();
+                    if (component is IDraw)
+                    {
+                        GameCore.Instance.RenderManager.Remove(component as IDraw);
+                    }
                 }
                 _componentsToRemove.Clear();
             }
@@ -198,6 +203,14 @@ namespace Blurlib.ECS.Managers
                 }
             }
             return false;
+        }
+
+        public void ForEach(Action<Component> action)
+        {
+            foreach (Component component in _components)
+            {
+                action(component);
+            }
         }
 
         public IEnumerator<Component> GetEnumerator()

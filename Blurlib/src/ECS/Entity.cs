@@ -1,10 +1,7 @@
 ﻿using Blurlib.ECS.Managers;
 using Blurlib.Util;
-using Blurlib.World;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Blurlib.ECS
 {
@@ -44,14 +41,25 @@ namespace Blurlib.ECS
             }
         }
 
-        public bool Visible;
+        private bool _visible;
+        public bool Visible
+        {
+            get
+            {
+                return _visible;
+            }
+            set
+            {
+                _visible = value;
+            }
+        }
         
         public bool Collidable;
 
         public Entity(string id, Vector2 worldPosition, bool active = false, bool visible = false, bool collidable = false, params Component[] components)
         {
             _active = active;
-            Visible = visible;
+            _visible = visible;
             Collidable = collidable;
 
             _components = new ComponentsManager(this);

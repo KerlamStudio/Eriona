@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Blurlib.Render
 {
@@ -44,7 +43,7 @@ namespace Blurlib.Render
 
         public void Add(IDraw drawable)
         {
-            if (!_drawList.Contains(drawable) && drawable.Visible && !_toAdd.Contains(drawable))
+            if (!_drawList.Contains(drawable) && !_toAdd.Contains(drawable))
             {
                 _toAdd.Add(drawable);
             }            
@@ -110,7 +109,6 @@ namespace Blurlib.Render
             {
                 foreach (IDraw drawable in _toRemove)
                 {
-                    drawable.Visible = false;
                     _drawList.Remove(drawable);
                 }
                 _toRemove.Clear();
@@ -133,20 +131,12 @@ namespace Blurlib.Render
                 {
                     try
                     {
-                        spriteBatch.Draw(
-                            drawable.Texture,
-                            drawable.TexturePosition + drawable.TextureLocalTranslate,
-                            drawable.TextureClip,
-                            drawable.TextureColorFilter);
+                        drawable.Draw(spriteBatch);
                     }
                     catch (Exception e)
                     {
                         "Can't draw an entity".Printl();
                     }
-                }
-                else
-                {
-                    _toRemove.Add(drawable);
                 }
             }
 

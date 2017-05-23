@@ -1,8 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Xna.Framework.Graphics;
 
 namespace Blurlib.Render
 {
@@ -10,10 +6,6 @@ namespace Blurlib.Render
     {
         int ZIndex { get; }
         bool Visible { get; set; }
-        Texture2D Texture { get; }
-        Rectangle? TextureClip { get; }
-        Vector2 TexturePosition { get; }
-        Vector2 TextureLocalTranslate { get; }
-        Color TextureColorFilter { get; }
+        void Draw(SpriteBatch spriteBatch);
     }
 }
