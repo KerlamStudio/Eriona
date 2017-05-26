@@ -183,5 +183,10 @@ namespace Blurlib.World
             }
             return true;
         }
+
+        public Transform Copy()
+        {
+            return new Transform(X, Y, Width, Height);
+        }
     }
 }
