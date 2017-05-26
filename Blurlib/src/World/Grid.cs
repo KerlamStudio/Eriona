@@ -3,6 +3,7 @@ using Blurlib.Util;
 using Blurlib.World;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Blurlib.World
@@ -16,8 +17,8 @@ namespace Blurlib.World
         public Vector2 CellSize { get; private set; }
         public Vector2 CellNb { get; private set; }
         public Vector2 Position { get; private set; }
-        public List<Collider> ColliderList { get; private set; }
-        public Dictionary<Collider, List<Collider>> ComputedCollision { get; private set; }
+        public HashSet<Collider> ColliderList { get; private set; }
+        public Dictionary<Collider, HashSet<Collider>> ComputedCollision { get; private set; }
         
         public Grid(float width, float height, float cellWidth, float cellHeight, float x=0, float y=0)
         {
@@ -25,8 +26,8 @@ namespace Blurlib.World
             CellSize = new Vector2(cellWidth, cellHeight);
             CellNb = new Vector2(width / cellWidth, height/ cellHeight);
             Position = new Vector2(x, y);
-            ColliderList = new List<Collider>();
-            ComputedCollision = new Dictionary<Collider, List<Collider>>();
+            ColliderList = new HashSet<Collider>();
+            ComputedCollision = new Dictionary<Collider, HashSet<Collider>>();
         }
 
         public void Initialize()
@@ -42,7 +43,7 @@ namespace Blurlib.World
                     {
                         GridPosition = new Vector2(i, j),
                         WordlPosition = new Vector2(Position.X + i * CellSize.X, Position.Y + j * CellSize.Y),
-                        Colliders = new List<Collider>()
+                        Colliders = new HashSet<Collider>()
                     };
                 }
             }
@@ -51,22 +52,22 @@ namespace Blurlib.World
         // !TODO! : Verify 
         public void Update()
         {
-            foreach (List<Collider> collider_list in ComputedCollision.Values)
+            foreach (HashSet<Collider> collider_list in ComputedCollision.Values)
             {
                 collider_list.Clear();
             }
 
             foreach (Collider collider in ColliderList)
             {
-                if (collider.LastPosition != collider.Position)
+                if (collider.Changed)
                 {
                     List<Cell> next_cell = new List<Cell>(GetCells(collider.WorldTransform));
 
                     foreach (Cell cell in GetCells(
                         collider.LastPosition.X, 
                         collider.LastPosition.Y, 
-                        collider.Hitbox.Width, 
-                        collider.Hitbox.Height))
+                        collider.LastHitbox.Width, 
+                        collider.LastHitbox.Height))
                     {
                         if (!next_cell.Contains(cell))
                         {
@@ -106,7 +107,7 @@ namespace Blurlib.World
                 cell.Colliders.Add(collider);
             }
 
-            ComputedCollision[collider] = new List<Collider>();
+            ComputedCollision[collider] = new HashSet<Collider>();
 
             ColliderList.Add(collider);
         }
@@ -134,6 +135,20 @@ namespace Blurlib.World
             ColliderList.Remove(collider);
         }
 
+        public void Reset()
+        {
+            ForEach((cell) => cell.Colliders.Clear());
+
+            ComputedCollision.Clear();
+
+            ColliderList.Clear();
+        }
+
+        public IEnumerable<Cell> GetCells(Collider collider)
+        {
+            return GetCells(collider.WorldTransform);
+        }
+
         public IEnumerable<Cell> GetCells(Transform hitbox)
         {
             return GetCells(hitbox.X, hitbox.Y, hitbox.Width, hitbox.Height);
@@ -151,7 +166,7 @@ namespace Blurlib.World
         }
 
         // -TODO-: Can be optimized
-        public bool HasCollisionWith(Collider collider)
+        public bool HasCollision(Collider collider)
         {
             if (ComputedCollision.ContainsKey(collider) && ComputedCollision[collider].Count > 0)
             {

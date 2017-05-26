@@ -8,7 +8,7 @@ namespace Blurlib.World
     {
         public Vector2 GridPosition;
         public Vector2 WordlPosition;
-        public List<Collider> Colliders;
+        public HashSet<Collider> Colliders;
         public int Count { get { return Colliders.Count; } }
     }
 }
