@@ -189,5 +189,20 @@ namespace Blurlib.ECS
         }
 
         #endregion // Cycle
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+
+            hash = hash * 23 + Id.GetHashCode();
+
+            if (Scene.IsNotNull())
+                hash = hash * 23 + Scene.GetHashCode();
+
+            hash = hash * 23 + _components.GetHashCode();
+            hash = hash * 23 + WorldPosition.GetHashCode();
+
+            return hash;
+        }
     }
 }

@@ -65,7 +65,10 @@ namespace Blurlib.ECS
         {
             get
             {
-                return Entity.WorldPosition + LocalPosition;
+                if (Entity.IsNotNull())
+                    return Entity.WorldPosition + LocalPosition;
+                else
+                    return new Vector2(0, 0);
             }
         }
 
@@ -113,6 +116,22 @@ namespace Blurlib.ECS
         {
             if (Entity.IsNotNull())
                 Entity.Remove(this);
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+
+            if (Scene.IsNotNull())
+                hash = hash * 23 + Scene.GetHashCode();
+
+            if (Entity.IsNotNull())
+                hash = hash * 23 + Entity.GetHashCode();
+
+            hash = hash * 23 + LocalPosition.GetHashCode();
+            hash = hash * 23 + WorldPosition.GetHashCode();
+
+            return hash;
         }
     }
 }

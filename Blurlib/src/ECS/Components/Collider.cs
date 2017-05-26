@@ -29,16 +29,28 @@ namespace Blurlib.ECS.Components
             get { return WorldPosition + _hitbox.Position; }
         }
                 
+        public Transform LastHitbox
+        {
+            get;
+            private set;
+        }
+
         public Vector2 LastPosition
         {
             get;
             private set;
         }
-        
+
+        public bool Changed
+        {
+            get { return LastPosition != Position || LastHitbox != Hitbox; }
+        }
+
         public Collider(Transform transform, bool sleeping=false) : base(true, false, true)
         {
             _hitbox = transform;
-            LastPosition = transform.Position;
+            LastHitbox = transform;
+            LastPosition = WorldPosition + _hitbox.Position;
             Sleeping = sleeping;
         }
 
@@ -65,12 +77,19 @@ namespace Blurlib.ECS.Components
         {
             base.Update();
 
-            LastPosition = WorldPosition + Hitbox.Position;
+            LastHitbox = Hitbox.Copy();
+
+            LastPosition = WorldPosition + _hitbox.Position;
         }
 
         public virtual void OnCollide(Collider other, Direction from)
         {
 
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() * 23 + Hitbox.GetHashCode();
         }
     }
 }
