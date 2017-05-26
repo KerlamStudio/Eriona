@@ -56,7 +56,7 @@ namespace Blurlib.ECS
         
         public bool Collidable;
 
-        public Entity(string id, Vector2 worldPosition, bool active = false, bool visible = false, bool collidable = false, params Component[] components)
+        public Entity(string id, Vector2? worldPosition, bool active = false, bool visible = false, bool collidable = false, params Component[] components)
         {
             _active = active;
             _visible = visible;
@@ -65,16 +65,10 @@ namespace Blurlib.ECS
             _components = new ComponentsManager(this);
 
             Tags = new List<string>();
-
-            if (id.Equals(string.Empty))
-                _id = Extension.GenerateUniqueId("Entity");
-            else
-                _id = id;
-
-            if (worldPosition.IsNull())
-                WorldPosition = Vector2.Zero;
-            else
-                WorldPosition = worldPosition;
+           
+            _id = id ?? Extension.GenerateUniqueId("Entity");
+            
+           WorldPosition = worldPosition ?? Vector2.Zero;
 
             if (components.Length > 0)
                 _components.Add(components);

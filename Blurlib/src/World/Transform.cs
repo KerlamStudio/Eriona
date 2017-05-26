@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace Blurlib.World
 {
@@ -99,12 +100,6 @@ namespace Blurlib.World
             Height = height;
         }
 
-        public bool Intersects(Transform other)
-        {
-            return Bounds.Intersects(other.Bounds);
-
-        }
-
         public bool AABBCollision(Transform other)
         {
             throw new NotImplementedException();
@@ -155,5 +150,38 @@ namespace Blurlib.World
             return X.GetHashCode() * Y.GetHashCode() * Width.GetHashCode() * Height.GetHashCode();
         }
 
+        public bool IntersectBox(float x, float y, float width, float height)
+        {
+            return Left < x + width && Right > x && Bottom > y && Top < y+height;
+        }
+
+        public bool IntersectBox(Transform other)
+        {
+            return Left < other.Right && Right > other.Left && Bottom > other.Top && Top < other.Bottom;
+        }
+
+        public bool IntersectsBoxOne(IEnumerable<Transform> others)
+        {
+            foreach (Transform transform in others)
+            {
+                if (IntersectBox(transform))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IntersectBoxAll(IEnumerable<Transform> others)
+        {
+            foreach (Transform transform in others)
+            {
+                if (!IntersectBox(transform))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

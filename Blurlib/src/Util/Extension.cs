@@ -134,5 +134,13 @@ namespace Blurlib.Util
                 1000000) / loop).ToString("0.00 ns"));
             Console.Read();
         }
+
+        public static void ForEach<T>(this IEnumerable<T> list, Action<T> action)
+        {
+            foreach (T element in list)
+            {
+                action?.Invoke(element);
+            }
+        }
     }
 }
