@@ -40,18 +40,35 @@ namespace Blurlib.ECS.Components
             get;
             private set;
         }
+        
+        private bool _collidable;
+        public bool Collidable
+        {
+            get
+            {
+                if (Entity.IsNotNull() && Entity.Collidable)
+                    return _collidable;
+                else
+                    return false;
+            }
+            set
+            {
+                _collidable = value;
+            }
+        }
 
         public bool Changed
         {
             get { return LastPosition != Position || LastHitbox != Hitbox; }
         }
 
-        public Collider(Transform transform, bool sleeping=false) : base(true, false, true)
+        public Collider(Transform transform, bool collidable = true, bool sleeping=false) : base(true, false)
         {
             _hitbox = transform;
             LastHitbox = transform;
             LastPosition = WorldPosition + _hitbox.Position;
             Sleeping = sleeping;
+            _collidable = collidable;
         }
 
         public virtual bool CollideWith(Collider other)

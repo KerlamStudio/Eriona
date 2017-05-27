@@ -44,17 +44,7 @@ namespace Blurlib.ECS
                 _visible = value;
             }
         }
-
-        private bool _collidable;
-        public bool Collidable
-        {
-            get { return _collidable; }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
+        
         public Entity Entity { get; private set; }
 
         public Scene Scene { get { return Entity.IsNotNull() ? Entity.Scene : null; } }
@@ -76,11 +66,10 @@ namespace Blurlib.ECS
         
         public List<string> Tags;
 
-        public Component(bool active=false, bool visible=false, bool collidable=false)
+        public Component(bool active=false, bool visible=false)
         {
             _active = active;
             _visible = visible;
-            //Collidable = collidable;
             LocalPosition = new Vector2();
 
             Tags = new List<string>();
