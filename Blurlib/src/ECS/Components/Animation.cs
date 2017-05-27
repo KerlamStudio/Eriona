@@ -10,7 +10,7 @@ namespace Blurlib.ECS.Components
     {
         public Texture2D Texture;
         public Rectangle? TextureClip;
-        public Vector2 LocalTextureTranslate;
+        public Vector2 TextureOffset;
         public Transform Hitbox;
     }
 
@@ -107,7 +107,7 @@ namespace Blurlib.ECS.Components
                 _currentAnimation = _animations[_nextAnimation];
 
                 Texture = _currentAnimation.CurrentFrame.Texture;
-                TextureLocalTranslate = _currentAnimation.CurrentFrame.LocalTextureTranslate;
+                TextureOffset = _currentAnimation.CurrentFrame.TextureOffset;
                 TextureClip = _currentAnimation.CurrentFrame.TextureClip;
             }
 
@@ -118,7 +118,7 @@ namespace Blurlib.ECS.Components
                 if (_currentAnimation.Changed)
                 {
                     Texture = _currentAnimation.CurrentFrame.Texture;
-                    TextureLocalTranslate = _currentAnimation.CurrentFrame.LocalTextureTranslate;
+                    TextureOffset = _currentAnimation.CurrentFrame.TextureOffset;
                     TextureClip = _currentAnimation.CurrentFrame.TextureClip;
                 }
             }

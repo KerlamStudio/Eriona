@@ -28,10 +28,10 @@ namespace Eriona.Entities
             base.Awake();
 
             Get<Animation>().AddAnimation("test", 0.2f,
-                new Frame() { Texture = Scene.Resources.Get<Texture2D>("dummy"), LocalTextureTranslate = Vector2.Zero },
-                new Frame() { Texture = Scene.Resources.Get<Texture2D>("flamme"), LocalTextureTranslate = Vector2.Zero });
+                new Frame() { Texture = Scene.Resources.Get<Texture2D>("dummy"), TextureOffset = Vector2.Zero },
+                new Frame() { Texture = Scene.Resources.Get<Texture2D>("flamme"), TextureOffset = Vector2.Zero });
             Get<Animation>().AddAnimation("test2", 0.2f,
-                new Frame() { Texture = Scene.Resources.Get<Texture2D>("dummy"), LocalTextureTranslate = Vector2.Zero });
+                new Frame() { Texture = Scene.Resources.Get<Texture2D>("dummy"), TextureOffset = Vector2.Zero });
             Get<Animation>().ChangeAnimation("test");
         }
 
