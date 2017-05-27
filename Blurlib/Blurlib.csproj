@@ -62,6 +62,7 @@
     <Compile Include="src\Render\RenderManager.cs" />
     <Compile Include="src\Util\Direction.cs" />
     <Compile Include="src\Util\Extension.cs" />
+    <Compile Include="src\Util\Pair.cs" />
     <Compile Include="src\World\Cell.cs" />
     <Compile Include="src\World\Grid.cs" />
     <Compile Include="src\World\Transform.cs" />

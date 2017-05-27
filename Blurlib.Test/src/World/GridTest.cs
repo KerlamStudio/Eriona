@@ -10,6 +10,33 @@ using System.Threading.Tasks;
 
 namespace Blurlib.Test.World
 {
+    public class TempEntity : ECS.Entity
+    {
+        public Collider collider;
+        public Collider collider2;
+        public Collider collider3;
+
+        public TempEntity() : base("temp", null, true, true, true)
+        {
+
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            Transform transform = new Transform(25, 25, 100, 100);
+            collider = new Collider(transform);
+
+            Transform transform2 = new Transform(50, 50, 100, 100);
+            collider2 = new Collider(transform2);
+
+            Transform transform3 = new Transform(200, 200, 100, 100);
+            collider3 = new Collider(transform3);
+
+            Add(collider, collider2, collider3);
+        }
+    }
+
     [TestFixture]
     public class GridTest
     {
@@ -129,28 +156,23 @@ namespace Blurlib.Test.World
         {
             grid.Reset();
 
-            Transform transform = new Transform(25, 25, 100, 100);
-            Collider collider = new Collider(transform);
+            TempEntity t = new TempEntity();
+            t.Initialize();
+            t.Awake();
 
-            Transform transform2 = new Transform(50, 50, 100, 100);
-            Collider collider2 = new Collider(transform2);
+            grid.Add(t.collider);
+            grid.Add(t.collider2);
+            grid.Add(t.collider3);
 
-            Transform transform3 = new Transform(200, 200, 100, 100);
-            Collider collider3 = new Collider(transform3);
+            grid.ComputeCollision(t.collider);
+            grid.ComputeCollision(t.collider2);
+            grid.ComputeCollision(t.collider3);
 
-            grid.Add(collider);
-            grid.Add(collider2);
-            grid.Add(collider3);
+            Assert.IsTrue(grid.ComputedCollision[t.collider].Contains(t.collider2));
 
-            grid.ComputeCollision(collider);
-            grid.ComputeCollision(collider2);
-            grid.ComputeCollision(collider3);
+            Assert.IsTrue(grid.ComputedCollision[t.collider2].Contains(t.collider));
 
-            Assert.IsTrue(grid.ComputedCollision[collider].Contains(collider2));
-
-            Assert.IsTrue(grid.ComputedCollision[collider2].Contains(collider));
-
-            Assert.IsEmpty(grid.ComputedCollision[collider3]);
+            Assert.IsEmpty(grid.ComputedCollision[t.collider3]);
         }
 
         [Test]
@@ -158,25 +180,21 @@ namespace Blurlib.Test.World
         {
             grid.Reset();
 
-            Transform transform = new Transform(25, 25, 100, 100);
-            Collider collider = new Collider(transform);
+            TempEntity t = new TempEntity();
+            t.Initialize();
+            t.Awake();
 
-            Transform transform2 = new Transform(50, 50, 100, 100);
-            Collider collider2 = new Collider(transform2);
+            grid.Add(t.collider);
+            grid.Add(t.collider2);
+            grid.Add(t.collider3);
 
-            Transform transform3 = new Transform(200, 200, 100, 100);
-            Collider collider3 = new Collider(transform3);
+            grid.ComputeCollision(t.collider);
+            grid.ComputeCollision(t.collider2);
+            grid.ComputeCollision(t.collider3);
 
-            grid.Add(collider);
-            grid.Add(collider2);
-            grid.Add(collider3);
-
-            grid.ComputeCollision(collider);
-            grid.ComputeCollision(collider3);
-
-            Assert.IsTrue(grid.HasCollision(collider));
-            Assert.IsTrue(grid.HasCollision(collider2));
-            Assert.IsFalse(grid.HasCollision(collider3));
+            Assert.IsTrue(grid.HasCollision(t.collider), "collision 1");
+            Assert.IsTrue(grid.HasCollision(t.collider2), "collision 2");
+            Assert.IsFalse(grid.HasCollision(t.collider3), "collision 3");
         }
     }
 }

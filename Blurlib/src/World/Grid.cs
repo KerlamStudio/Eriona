@@ -19,6 +19,7 @@ namespace Blurlib.World
         public Vector2 Position { get; private set; }
         public HashSet<Collider> ColliderList { get; private set; }
         public Dictionary<Collider, HashSet<Collider>> ComputedCollision { get; private set; }
+        public HashSet<Pair<Collider>> CollisionPair { get; private set; }
         
         public Grid(float width, float height, float cellWidth, float cellHeight, float x=0, float y=0)
         {
@@ -28,6 +29,7 @@ namespace Blurlib.World
             Position = new Vector2(x, y);
             ColliderList = new HashSet<Collider>();
             ComputedCollision = new Dictionary<Collider, HashSet<Collider>>();
+            CollisionPair = new HashSet<Pair<Collider>>();
         }
 
         public void Initialize()
@@ -52,6 +54,8 @@ namespace Blurlib.World
         // !TODO! : Verify 
         public void Update()
         {
+            CollisionPair.Clear();
+
             foreach (HashSet<Collider> collider_list in ComputedCollision.Values)
             {
                 collider_list.Clear();
@@ -92,6 +96,8 @@ namespace Blurlib.World
                     // ForEach((cell) => { if (cell.Colliders.Contains(collider)) { cell.Colliders.Remove(collider); } );
                     // GetCells(collider.WorldTransform).ForEach((cell) => { if (!cell.Colliders.Contains(collider)) cell.Colliders.Add(collider); } ));
                 }
+
+                ComputeCollision(collider);
             }
         }
 
@@ -164,19 +170,9 @@ namespace Blurlib.World
                 }
             }
         }
-
-        // -TODO-: Can be optimized
+                
         public bool HasCollision(Collider collider)
         {
-            if (ComputedCollision.ContainsKey(collider) && ComputedCollision[collider].Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                ComputeCollision(collider);
-            }
-
             if (ComputedCollision.ContainsKey(collider) && ComputedCollision[collider].Count > 0)
             {
                 return true;
@@ -192,28 +188,33 @@ namespace Blurlib.World
                 return null;
             }
 
-            if (ComputedCollision[collider].Count == 0)
-            {
-                ComputeCollision(collider);                
-            }
-
             return ComputedCollision[collider];
         }
 
         public void ComputeCollision(Collider collider)
         {
-            if (!ComputedCollision.ContainsKey(collider) || ComputedCollision[collider].Count > 0)
+            if (!ComputedCollision.ContainsKey(collider) || !collider.Collidable)
             {
                 return;
-            }            
+            }
+
+            Pair<Collider> test_pair = new Pair<Collider>();
+            test_pair.first = collider;
 
             foreach (Cell cell in GetCells(collider.WorldTransform))
             {
                 foreach (Collider other in cell.Colliders)
                 {
-                    if (collider != other && collider.Hitbox.IntersectBox(other.Hitbox) && !ComputedCollision[collider].Contains(other))
+                    test_pair.second = other;
+                        
+                    if (collider == other || !other.Collidable || CollisionPair.Contains(test_pair))
+                        continue;
+
+                    if (collider.Hitbox.IntersectBox(other.Hitbox))
                     {
                         ComputedCollision[collider].Add(other);
+                        ComputedCollision[other].Add(collider);
+                        CollisionPair.Add(new Pair<Collider>(collider, other));
                     }
                 }
             }            
