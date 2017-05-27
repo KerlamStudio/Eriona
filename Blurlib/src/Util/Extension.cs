@@ -109,6 +109,15 @@ namespace Blurlib.Util
             }
         }
 
+        public static void Remove<T>(this ICollection<T> list, IEnumerable<T> toRemove)
+        {
+            foreach (T element in toRemove)
+            {
+                if (list.Contains(element))
+                    list.Remove(element);
+            }
+        }
+
         public static void Benchmark(Action m1, Action m2, int loop = 100000000)
         {
             m1();

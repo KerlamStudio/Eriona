@@ -130,6 +130,7 @@ namespace Blurlib.ECS
 
             hash = hash * 23 + LocalPosition.GetHashCode();
             hash = hash * 23 + WorldPosition.GetHashCode();
+            hash = hash * 23 + Tags.GetHashCode();
 
             return hash;
         }

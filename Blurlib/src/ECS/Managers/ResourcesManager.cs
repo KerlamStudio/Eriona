@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Blurlib.ECS.Managers
@@ -10,105 +11,43 @@ namespace Blurlib.ECS.Managers
     {
         public bool disposed = false;
 
-        private Dictionary<string, Texture2D> _textureList;
-        private Dictionary<string, SoundEffect> _soundList;
-        private Dictionary<string, SpriteFont> _fontList;
+        private Hashtable _resourcesList;
 
         public ResourcesManager()
         {
-            _textureList = new Dictionary<string, Texture2D>();
-            _soundList = new Dictionary<string, SoundEffect>();
-            _fontList = new Dictionary<string, SpriteFont>();
+            _resourcesList = new Hashtable();
         }
 
-        public T Get<T>(string id) where T : class
+        public T Get<T>(string id) where T : class, IDisposable
         {
-            if (typeof(T).IsAssignableFrom(typeof(Texture2D)))
+            if (_resourcesList.ContainsKey(id))
             {
-                if (_textureList.ContainsKey(id))
-                {
-                    return _textureList[id] as T;
-                }
-            }
-            else if (typeof(T).IsAssignableFrom(typeof(SoundEffect)))
-            {
-                if (_soundList.ContainsKey(id))
-                {
-                    return _soundList[id] as T;
-                }
-            }
-            else if (typeof(T).IsAssignableFrom(typeof(SpriteFont)))
-            {
-                if (_fontList.ContainsKey(id))
-                {
-                    return _fontList[id] as T;
-                }
+                return _resourcesList[id] as T;
             }
             return default(T);
         }
 
-        public string GetId<T>(T asset)
+        public string GetId<T>(T asset) where T : class, IDisposable
         {
-            if (asset is Texture2D)
+            foreach (KeyValuePair<string, object> element in _resourcesList.Values)
             {
-                foreach (KeyValuePair<string, Texture2D> element in _textureList)
+                if (element.Value is T && element.Value as T == asset)
                 {
-                    if (element.Value == asset as Texture2D)
-                    {
-                        return element.Key;
-                    }
+                    return element.Key;
                 }
             }
-            else if (asset is SoundEffect)
-            {
-                foreach (KeyValuePair<string, SoundEffect> element in _soundList)
-                {
-                    if (element.Value == asset as SoundEffect)
-                    {
-                        return element.Key;
-                    }
-                }
-            }
-            else if (asset is SpriteFont)
-            {
-                foreach (KeyValuePair<string, SpriteFont> element in _fontList)
-                {
-                    if (element.Value == asset as SpriteFont)
-                    {
-                        return element.Key;
-                    }
-                }
-            }
-
             return String.Empty;
         }
 
-        public void Add<T>(string id, T asset)
+        public void Add<T>(string id, T asset) where T : class, IDisposable
         {
-            if (asset is Texture2D)
+            if (!_resourcesList.ContainsKey(id))
             {
-                if (!_textureList.ContainsKey(id))
-                {
-                    _textureList.Add(id, asset as Texture2D);
-                }
-            }
-            else if (asset is SoundEffect)
-            {
-                if (!_soundList.ContainsKey(id))
-                {
-                    _soundList.Add(id, asset as SoundEffect);
-                }
-            }
-            else if (asset is SpriteFont)
-            {
-                if (!_fontList.ContainsKey(id))
-                {
-                    _fontList.Add(id, asset as SpriteFont);
-                }
+                _resourcesList.Add(id, asset);
             }
         }
 
-        public void LoadAndAdd<T>(string id)
+        public void LoadAndAdd<T>(string id) where T : class, IDisposable
         {
             try
             {
@@ -121,30 +60,12 @@ namespace Blurlib.ECS.Managers
             }
         }
 
-        public void Remove<T>(string id)
+        public void Remove<T>(string id) where T : class, IDisposable
         {
-            if (typeof(T).IsAssignableFrom(typeof(Texture2D)))
+            if (_resourcesList.ContainsKey(id))
             {
-                if (_textureList.ContainsKey(id))
-                {
-                    _textureList[id].Dispose();
-                    _textureList.Remove(id);
-                }
-            }
-            else if (typeof(T).IsAssignableFrom(typeof(SoundEffect)))
-            {
-                if (_soundList.ContainsKey(id))
-                {
-                    _soundList[id].Dispose();
-                    _soundList.Remove(id);
-                }
-            }
-            else if (typeof(T).IsAssignableFrom(typeof(SpriteFont)))
-            {
-                if (_fontList.ContainsKey(id))
-                {
-                    _fontList.Remove(id);
-                }
+                (_resourcesList[id] as T ).Dispose();
+                _resourcesList.Remove(id);
             }
         }
 
@@ -162,19 +83,11 @@ namespace Blurlib.ECS.Managers
 
             if (disposing)
             {
-                foreach (Texture2D texture in _textureList.Values)
+                foreach (IDisposable element in _resourcesList.Values)
                 {
-                    texture.Dispose();
+                    element.Dispose();
                 }
-                _textureList.Clear();
-
-                foreach (SoundEffect sound in _soundList.Values)
-                {
-                    sound.Dispose();
-                }
-                _soundList.Clear();
-
-                _fontList.Clear();
+                _resourcesList.Clear();
             }
             
             disposed = true;

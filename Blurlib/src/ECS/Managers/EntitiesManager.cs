@@ -8,17 +8,17 @@ namespace Blurlib.ECS.Managers
     {
         public Scene Scene { get; internal set; }
 
-        private List<Entity> _entities;
-        private List<Entity> _entitiesToAdd;
-        private List<Entity> _entitiesToRemove;
+        private HashSet<Entity> _entities;
+        private HashSet<Entity> _entitiesToAdd;
+        private HashSet<Entity> _entitiesToRemove;
 
         public EntitiesManager(Scene scene)
         {
             Scene = scene;
 
-            _entities = new List<Entity>();
-            _entitiesToAdd = new List<Entity>();
-            _entitiesToRemove = new List<Entity>();
+            _entities = new HashSet<Entity>();
+            _entitiesToAdd = new HashSet<Entity>();
+            _entitiesToRemove = new HashSet<Entity>();
         }
 
         public void Update()

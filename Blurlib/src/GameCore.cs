@@ -67,18 +67,18 @@ namespace Blurlib
             
 
             _graphics = new GraphicsDeviceManager(this);
-            _graphics.DeviceCreated += graphics_DeviceCreated;
-            _graphics.PreparingDeviceSettings += graphics_PreparingDeviceSettings;
+            _graphics.DeviceCreated += Graphics_DeviceCreated;
+            _graphics.PreparingDeviceSettings += Graphics_PreparingDeviceSettings;
 
             Content.RootDirectory = contentDir;
         }
 
-        private void graphics_DeviceCreated(object sender, EventArgs e)
+        private void Graphics_DeviceCreated(object sender, EventArgs e)
         {
             //EmptyKeys.UserInterface.Engine engine = new MonoGameEngine(GraphicsDevice, _windowWidth, _windowHeight);
         }
 
-        private void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
+        private void Graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
         {
             // -TODO-: understand this lol
             _graphics.PreferredBackBufferWidth = WindowWidth;
@@ -147,9 +147,8 @@ namespace Blurlib
 
         protected override void Draw(GameTime gameTime)
         {
-            base.Draw(gameTime);
+            base.Draw(gameTime);            
 
-            GraphicsDevice.Clear(RenderManager.ClearColor);
             RenderManager.Render(_spriteBatch);
         }
 

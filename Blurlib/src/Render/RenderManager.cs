@@ -21,20 +21,16 @@ namespace Blurlib.Render
 
         public Color ClearColor;
 
-        private List<IDraw> _drawList;
+        private SortedSet<IDraw> _drawList;
 
-        private List<IDraw> _toAdd;
-        private List<IDraw> _toRemove;
-
-        private bool _sorted;
+        private HashSet<IDraw> _toAdd;
+        private HashSet<IDraw> _toRemove;
 
         public RenderManager()
         {
-            _drawList = new List<IDraw>();
-            _toAdd = new List<IDraw>();
-            _toRemove = new List<IDraw>();
-
-            _sorted = true;
+            _drawList = new SortedSet<IDraw>(new ZIndexComparer());
+            _toAdd = new HashSet<IDraw>();
+            _toRemove = new HashSet<IDraw>();
 
             ClearColor = Color.ForestGreen;
         }
@@ -102,27 +98,19 @@ namespace Blurlib.Render
             {
                 _drawList.Add(_toAdd);
                 _toAdd.Clear();
-                _sorted = false;
             }
 
             if (_toRemove.Count > 0)
             {
-                foreach (IDraw drawable in _toRemove)
-                {
-                    _drawList.Remove(drawable);
-                }
+                _drawList.Remove(_toRemove);
                 _toRemove.Clear();
-            }
-
-            if (!_sorted)
-            {
-                _sorted = true;
-                _drawList.Sort(ZIndexComparer.Comparer);
             }
         }
 
         public void Render(SpriteBatch spriteBatch, bool usePProcess=false)
         {
+            GameCore.Instance.GraphicsDevice.Clear(ClearColor);
+
             spriteBatch.Begin();
 
             foreach (IDraw drawable in _drawList)

@@ -9,9 +9,9 @@ namespace Blurlib.ECS.Managers
     {
         public Entity Entity { get; internal set; }
 
-        private List<Component> _components;
-        private List<Component> _componentsToAdd;
-        private List<Component> _componentsToRemove;
+        private HashSet<Component> _components;
+        private HashSet<Component> _componentsToAdd;
+        private HashSet<Component> _componentsToRemove;
 
         public int Count
         {
@@ -22,9 +22,9 @@ namespace Blurlib.ECS.Managers
         {
             Entity = entity;
 
-            _components = new List<Component>();
-            _componentsToAdd = new List<Component>();
-            _componentsToRemove = new List<Component>();
+            _components = new HashSet<Component>();
+            _componentsToAdd = new HashSet<Component>();
+            _componentsToRemove = new HashSet<Component>();
 
         }
 
