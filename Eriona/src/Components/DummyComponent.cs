@@ -1,7 +1,5 @@
 ﻿using Blurlib.ECS;
 using Blurlib.ECS.Components;
-using Blurlib.Render;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Eriona.Components

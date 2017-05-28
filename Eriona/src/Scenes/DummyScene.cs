@@ -9,7 +9,7 @@ namespace Eriona.Scenes
     public class DummyScene : Scene
     {
         DummyEntity dummy;
-        public DummyScene(string id, bool pause = false) : base(id, pause)
+        public DummyScene(string id, bool pause = false) : base(id, null, pause)
         {
         }
 

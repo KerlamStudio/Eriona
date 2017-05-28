@@ -1,7 +1,5 @@
 ﻿using Blurlib.Util;
-using Blurlib.World;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 
 namespace Blurlib.ECS

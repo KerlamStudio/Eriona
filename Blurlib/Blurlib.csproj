@@ -63,10 +63,10 @@
     <Compile Include="src\Util\Direction.cs" />
     <Compile Include="src\Util\Extension.cs" />
     <Compile Include="src\Util\Pair.cs" />
-    <Compile Include="src\World\Cell.cs" />
-    <Compile Include="src\World\Grid.cs" />
-    <Compile Include="src\World\Transform.cs" />
-    <Compile Include="src\World\World.cs" />
+    <Compile Include="src\Physics\Cell.cs" />
+    <Compile Include="src\Physics\Grid.cs" />
+    <Compile Include="src\Physics\Transform.cs" />
+    <Compile Include="src\Physics\World.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\GUI\" />

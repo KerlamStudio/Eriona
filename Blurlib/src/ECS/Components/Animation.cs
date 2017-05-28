@@ -1,5 +1,5 @@
-﻿using Blurlib.Util;
-using Blurlib.World;
+﻿using Blurlib.Physics;
+using Blurlib.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;

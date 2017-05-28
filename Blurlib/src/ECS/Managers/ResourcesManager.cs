@@ -1,6 +1,4 @@
 ﻿using Blurlib.Util;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
