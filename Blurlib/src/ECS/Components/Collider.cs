@@ -1,5 +1,5 @@
-﻿using Blurlib.Util;
-using Blurlib.World;
+﻿using Blurlib.Physics;
+using Blurlib.Util;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
@@ -62,6 +62,8 @@ namespace Blurlib.ECS.Components
             get { return LastPosition != Position || LastHitbox != Hitbox; }
         }
 
+        public List<string> WorldLayers { get; internal set; }
+
         public Collider(Transform transform, bool collidable = true, bool sleeping=false) : base(true, false)
         {
             _hitbox = transform;
@@ -69,6 +71,8 @@ namespace Blurlib.ECS.Components
             LastPosition = WorldPosition + _hitbox.Position;
             Sleeping = sleeping;
             _collidable = collidable;
+
+            WorldLayers = new List<string>();
         }
 
         public virtual bool CollideWith(Collider other)
@@ -88,6 +92,13 @@ namespace Blurlib.ECS.Components
             }
             */
             return other.Hitbox.IntersectBox(WorldPosition.X + Hitbox.X, WorldPosition.Y + Hitbox.Y, Hitbox.Width, Hitbox.Height);
+        }
+
+        public override void OnAdded(Entity entity)
+        {
+            base.OnAdded(entity);
+
+            // +TODO+ : Add to World
         }
 
         public override void Update()

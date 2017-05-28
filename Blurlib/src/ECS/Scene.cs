@@ -1,5 +1,5 @@
 ﻿using Blurlib.ECS.Managers;
-using Microsoft.Xna.Framework;
+using Blurlib.Physics;
 using System;
 using System.Collections.Generic;
 
@@ -23,21 +23,22 @@ namespace Blurlib.ECS
             set { throw new NotImplementedException(); }
         }
         
+        public World World { get; private set; }
+
         public ResourcesManager Resources;
-
-        protected Color _backgroundColor;
-
+        
         protected EntitiesManager _entities;
 
-        public Scene(string id, bool pause = false)
+        public Scene(string id, Grid mainWorldLayer = null, bool pause = false)
         {
             _id = id;
-            _backgroundColor = Color.CornflowerBlue;
             _pause = pause;
 
             Resources = new ResourcesManager();
 
             _entities = new EntitiesManager(this);
+
+            World = new World(this, mainWorldLayer);
         }
 
         #region Entities Manager
@@ -159,6 +160,8 @@ namespace Blurlib.ECS
         public virtual void BeforeUpdate()
         {
             _entities.RefreshLists();
+
+            World.Update();
         }
 
         public virtual void Update()

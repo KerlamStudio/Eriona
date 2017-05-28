@@ -1,12 +1,8 @@
 ﻿using Blurlib.ECS.Components;
-using Blurlib.World;
-using Microsoft.Xna.Framework;
+using Blurlib.Physics;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blurlib.Test.World
 {
@@ -44,7 +40,7 @@ namespace Blurlib.Test.World
 
         public GridTest()
         {
-            grid = new Grid(1000, 1000, 50, 50);
+            grid = new Grid("TEST", 1000, 1000, 50, 50);
             grid.Initialize();
         }
 
