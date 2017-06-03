@@ -21,8 +21,8 @@ namespace Blurlib.Physics
         public HashSet<Collider> ColliderList { get; private set; }
         public Dictionary<Collider, HashSet<Collider>> ComputedCollision { get; private set; }
         public HashSet<Pair<Collider>> CollisionPair { get; private set; }
-        
-        public Grid(string id ,float width, float height, float cellWidth, float cellHeight, float x=0, float y=0)
+
+        public Grid(string id, float width, float height, float cellWidth, float cellHeight, float x = 0, float y = 0)
         {
             Id = id;
             Size = new Vector2(width, height);
@@ -40,7 +40,7 @@ namespace Blurlib.Physics
             _cells = new Cell[(int)CellNb.X, (int)CellNb.Y];
 
             // Initialize all Cells in the array
-            for (int i=0; i < (int)CellNb.X; i++)
+            for (int i = 0; i < (int)CellNb.X; i++)
             {
                 for (int j = 0; j < (int)CellNb.Y; j++)
                 {
@@ -59,6 +59,8 @@ namespace Blurlib.Physics
         {
             CollisionPair.Clear();
 
+            UpdatePhysics();
+
             foreach (HashSet<Collider> collider_list in ComputedCollision.Values)
             {
                 collider_list.Clear();
@@ -71,9 +73,9 @@ namespace Blurlib.Physics
                     List<Cell> next_cell = new List<Cell>(GetCells(collider.WorldTransform));
 
                     foreach (Cell cell in GetCells(
-                        collider.LastPosition.X, 
-                        collider.LastPosition.Y, 
-                        collider.LastHitbox.Width, 
+                        collider.LastPosition.X,
+                        collider.LastPosition.Y,
+                        collider.LastHitbox.Width,
                         collider.LastHitbox.Height))
                     {
                         if (!next_cell.Contains(cell))
@@ -85,7 +87,7 @@ namespace Blurlib.Physics
                             next_cell.Remove(cell);
                         }
                     }
-                    
+
                     foreach (Cell cell in next_cell)
                     {
                         if (!cell.Colliders.Contains(collider))
@@ -101,6 +103,26 @@ namespace Blurlib.Physics
                 }
 
                 ComputeCollision(collider);
+            }
+        }
+
+        private void UpdatePhysics()
+        {
+            foreach (Collider collider in ColliderList)
+            {
+                if (collider is ColliderPhysics && collider.Active)
+                {
+                    ColliderPhysics colliderPhy = collider as ColliderPhysics;
+
+                    colliderPhy.Velocity += (colliderPhy.Acceleration - colliderPhy.Friction * colliderPhy.Velocity) * GameCore.DeltaTime;
+
+                    if (colliderPhy.Velocity.X < 0.01f && colliderPhy.Velocity.X > - 0.01f)
+                        colliderPhy.Velocity.X = 0;
+                    if (colliderPhy.Velocity.Y < 0.01f && colliderPhy.Velocity.Y > -0.01f)
+                        colliderPhy.Velocity.Y = 0;
+
+                    colliderPhy.Entity.WorldPosition += Extension.ConvertMetersToPixels(colliderPhy.Velocity) * GameCore.DeltaTime;
+                }
             }
         }
 
@@ -165,15 +187,19 @@ namespace Blurlib.Physics
 
         public IEnumerable<Cell> GetCells(float x, float y, float w, float h)
         {
-            for (int i = 0; i <= w *  InverseCellSize.X; i++)
+            int px = (int)((x - Position.X) * InverseCellSize.X);
+            int py = (int)((y - Position.Y) * InverseCellSize.Y);
+
+            for (int i = 0; i <= w * InverseCellSize.X; i++)
             {
                 for (int j = 0; j <= h * InverseCellSize.Y; j++)
                 {
-                    yield return _cells[i + (int)(Position.X + x * InverseCellSize.X), j + (int)(Position.Y + y * InverseCellSize.Y)];
+                    if (i + px >= 0 && i + px < CellNb.X && j + py >= 0 && j + py < CellNb.Y)
+                        yield return _cells[i + px, j + py];
                 }
             }
         }
-                
+
         public bool HasCollision(Collider collider)
         {
             if (ComputedCollision.ContainsKey(collider) && ComputedCollision[collider].Count > 0)
@@ -208,7 +234,7 @@ namespace Blurlib.Physics
                 foreach (Collider other in cell.Colliders)
                 {
                     test_pair.second = other;
-                        
+
                     if (collider == other || !other.Collidable || CollisionPair.Contains(test_pair))
                         continue;
 
@@ -219,7 +245,7 @@ namespace Blurlib.Physics
                         CollisionPair.Add(new Pair<Collider>(collider, other));
                     }
                 }
-            }            
+            }
         }
 
         public void ForEach(Action<Cell> action)
@@ -230,7 +256,7 @@ namespace Blurlib.Physics
                 {
                     action.Invoke(_cells[i, j]);
                 }
-            }            
+            }
         }
 
         public override int GetHashCode()

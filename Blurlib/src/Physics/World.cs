@@ -7,17 +7,17 @@ namespace Blurlib.Physics
 {
     public class World
     {
-        public Scene Scene { get; private set;}
+        public Scene Scene { get; private set; }
 
         public Dictionary<string, Grid> Layers { get; private set; }
 
         public Grid MainLayer { get; private set; }
 
-        public World(Scene scene, Grid mainLayout=null)
+        public World(Scene scene, Grid mainLayout = null)
         {
             Scene = scene;
 
-            Layers = new  Dictionary<string, Grid>();
+            Layers = new Dictionary<string, Grid>();
 
             MainLayer = mainLayout ?? new Grid("MAIN", 1000, 1000, 50, 50);
 
@@ -26,7 +26,10 @@ namespace Blurlib.Physics
 
         public virtual void Initialize()
         {
-
+            foreach (Grid layer in Layers.Values)
+            {
+                layer.Initialize();
+            }
         }
 
         public virtual void Update()
@@ -37,31 +40,28 @@ namespace Blurlib.Physics
             }
         }
 
-        public void Add(Collider collider, string layer=null)
+        public void Add(Collider collider, string layer = null)
         {
             if (layer.IsNotNull() && Layers.ContainsKey(layer))
             {
                 Layers[layer].Add(collider);
-                collider.WorldLayers.Add(layer);
+                collider.WorldLayer = layer;
             }
             else
             {
                 MainLayer.Add(collider);
-                collider.WorldLayers.Add(MainLayer.Id);
+                collider.WorldLayer = MainLayer.Id;
             }
         }
 
         public void Remove(Collider collider)
         {
-            foreach (string layer in collider.WorldLayers)
+            if (Layers.ContainsKey(collider.WorldLayer))
             {
-                if (Layers.ContainsKey(layer))
-                {
-                    Layers[layer].Remove(collider);
-                }
+                Layers[collider.WorldLayer].Remove(collider);
             }
 
-            collider.WorldLayers.Clear();
+            collider.WorldLayer = "";
         }
 
     }

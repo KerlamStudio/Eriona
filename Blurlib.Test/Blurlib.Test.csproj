@@ -52,7 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\World\GridTest.cs" />
+    <Compile Include="src\Physics\ForceListTest.cs" />
+    <Compile Include="src\Physics\GridTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MonoGame.Framework.dll.config" />

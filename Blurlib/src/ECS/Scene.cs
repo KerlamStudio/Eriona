@@ -154,7 +154,7 @@ namespace Blurlib.ECS
 
         public virtual void Begin()
         {
-
+            World.Initialize();
         }
 
         public virtual void BeforeUpdate()

@@ -18,12 +18,12 @@ namespace Eriona.Scenes
             base.LoadContent();
             Resources.LoadAndAdd<Texture2D>("dummy");
             Resources.LoadAndAdd<Texture2D>("flamme");
+            Resources.LoadAndAdd<Texture2D>("target_dummy");
         }
 
         public override void Begin()
         {
             base.Begin();
-            "Begin DummyScene [. . .]".Printl();
             dummy = new DummyEntity();
             Add(dummy);
         }
@@ -31,35 +31,22 @@ namespace Eriona.Scenes
         public override void BeforeUpdate()
         {
             base.BeforeUpdate();
-            "Before Update DummyScene [. . .]".Printl();
         }
-
-        public int i = 0;
 
         public override void Update()
         {
             base.Update();
-
-            "Update DummyScene [. . .]".Printl();
-            //("Elapsed millisecond : " + GameCore.DeltaTime.ToString()).Printl();
-            "".Printl();
             
-            if (GameCore.InputsManager.IsPressed(Microsoft.Xna.Framework.Input.Keys.A))
-            {
-                dummy.Visible = !dummy.Visible;
-            }
-            
+            //("Elapsed second : " + GameCore.DeltaTime.ToString()).Printl();
         }
 
         public override void AfterUpdate()
         {
             base.AfterUpdate();
-            "After Update DummyScene [. . .]".Printl();
         }
 
         public override void End()
         {
-            "End DummyScene [. . .]".Printl();
         }
     }
 }

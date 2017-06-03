@@ -1,14 +1,19 @@
 ﻿using Blurlib;
 using Blurlib.ECS;
 using Blurlib.ECS.Components;
+using Blurlib.Physics;
+using Blurlib.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Eriona.Entities
 {
     public class DummyEntity : Entity
     {
-        public DummyEntity() : base("Dummy", new Vector2(19,34), true, true, true)
+        ColliderPhysics collider;
+
+        public DummyEntity() : base("Dummy", new Vector2(0,0), true, true, true)
         {
         }
 
@@ -20,19 +25,20 @@ namespace Eriona.Entities
         public override void OnAdded(Scene scene)
         {
             base.OnAdded(scene);
-            Add(new Animation());
+            Add(new Sprite(Scene.Resources.Get<Texture2D>("target_dummy"), true, 0, null, new Vector2(-Scene.Resources.Get<Texture2D>("target_dummy").Width / 2, -Scene.Resources.Get<Texture2D>("target_dummy").Height / 2)));
+            collider = new ColliderPhysics(
+                new Transform(
+                    -Scene.Resources.Get<Texture2D>("target_dummy").Width / 2, 
+                    -Scene.Resources.Get<Texture2D>("target_dummy").Height / 2, 
+                    Scene.Resources.Get<Texture2D>("target_dummy").Width, 
+                    Scene.Resources.Get<Texture2D>("target_dummy").Height), 
+                0.5f, null, 0.5f);
+            Add(collider);
         }
 
         public override void Awake()
         {
             base.Awake();
-
-            Get<Animation>().AddAnimation("test", 0.2f,
-                new Frame() { Texture = Scene.Resources.Get<Texture2D>("dummy"), TextureOffset = Vector2.Zero },
-                new Frame() { Texture = Scene.Resources.Get<Texture2D>("flamme"), TextureOffset = Vector2.Zero });
-            Get<Animation>().AddAnimation("test2", 0.2f,
-                new Frame() { Texture = Scene.Resources.Get<Texture2D>("dummy"), TextureOffset = Vector2.Zero });
-            Get<Animation>().ChangeAnimation("test");
         }
 
         public override void OnDisable()
@@ -53,15 +59,47 @@ namespace Eriona.Entities
         public override void Update()
         {
             base.Update();
-            if (GameCore.InputsManager.IsReleased(Microsoft.Xna.Framework.Input.Keys.Space))
+            
+            if (GameCore.InputsManager.IsDown(Keys.Right))
             {
-                Get<Animation>().ChangeAnimation("test2");
+                WorldPosition.X += 5;
             }
-            else if (GameCore.InputsManager.IsPressed(Microsoft.Xna.Framework.Input.Keys.Space))
+            else if (GameCore.InputsManager.IsDown(Keys.Left))
             {
-                Get<Animation>().ChangeAnimation("test");
+                WorldPosition.X -= 5;
             }
 
+            if (GameCore.InputsManager.IsDown(Keys.Up))
+            {
+                WorldPosition.Y -= 5;
+            }
+            else if (GameCore.InputsManager.IsDown(Keys.Down))
+            {
+                WorldPosition.Y += 5;
+            }
+
+            if (GameCore.InputsManager.IsPressed(Keys.Space))
+            {
+                collider.Forces.AddForce("test", new Vector2(9.83f * collider.Mass, 0));
+            }
+            if (GameCore.InputsManager.IsPressed(Keys.Enter))
+            {
+                collider.Forces.RemoveForce("test");
+            }
+
+            if (GameCore.InputsManager.IsPressed(Keys.RightShift))
+            {
+                collider.Velocity = new Vector2(3, 4);
+            }
+
+            if (GameCore.InputsManager.IsPressed(Keys.R))
+            {
+                collider.Velocity = Vector2.Zero;
+                collider.Entity.WorldPosition = Vector2.Zero;
+            }
+
+
+            collider.Velocity.Printl();
         }
     }
 }

@@ -151,5 +151,20 @@ namespace Blurlib.Util
                 action?.Invoke(element);
             }
         }
+
+        public static float ConvertMetersToPixels(float meters)
+        {
+            return meters * Constants.MeterToPixels;
+        }
+
+        public static float ConvertPixelsToMeters(float pixels)
+        {
+            return pixels / Constants.MeterToPixels;
+        }
+        // -TODO- : Add converter methods
+        public static Vector2 ConvertMetersToPixels(Vector2 meters)
+        {
+            return new Vector2(ConvertMetersToPixels(meters.X), ConvertMetersToPixels(meters.Y));
+        }
     }
 }

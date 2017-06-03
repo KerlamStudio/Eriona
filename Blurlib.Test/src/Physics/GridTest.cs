@@ -4,7 +4,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Blurlib.Test.World
+namespace Blurlib.Test.Physics
 {
     public class TempEntity : ECS.Entity
     {
@@ -40,7 +40,7 @@ namespace Blurlib.Test.World
 
         public GridTest()
         {
-            grid = new Grid("TEST", 1000, 1000, 50, 50);
+            grid = new Grid("TEST", 1000, 1000, 50, 50, 12, -25);
             grid.Initialize();
         }
 

@@ -7,8 +7,6 @@ namespace Blurlib.ECS.Components
 {
     public class Collider : Component
     {
-        public bool Sleeping;
-
         private Transform _hitbox;
         public Transform Hitbox
         {
@@ -62,17 +60,16 @@ namespace Blurlib.ECS.Components
             get { return LastPosition != Position || LastHitbox != Hitbox; }
         }
 
-        public List<string> WorldLayers { get; internal set; }
+        public string WorldLayer { get; internal set; }
 
-        public Collider(Transform transform, bool collidable = true, bool sleeping=false) : base(true, false)
+        public Collider(Transform transform, bool collidable = true, string layer=null) : base(true, false)
         {
             _hitbox = transform;
             LastHitbox = transform;
             LastPosition = WorldPosition + _hitbox.Position;
-            Sleeping = sleeping;
             _collidable = collidable;
 
-            WorldLayers = new List<string>();
+            WorldLayer = layer;
         }
 
         public virtual bool CollideWith(Collider other)
@@ -98,7 +95,7 @@ namespace Blurlib.ECS.Components
         {
             base.OnAdded(entity);
 
-            // +TODO+ : Add to World
+            Scene?.World.Add(this, WorldLayer);
         }
 
         public override void Update()

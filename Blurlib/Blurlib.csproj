@@ -49,6 +49,7 @@
     <Compile Include="src\ECS\Component.cs" />
     <Compile Include="src\ECS\Components\Animation.cs" />
     <Compile Include="src\ECS\Components\Collider.cs" />
+    <Compile Include="src\ECS\Components\ColliderPhysics.cs" />
     <Compile Include="src\ECS\Managers\ComponentsManager.cs" />
     <Compile Include="src\ECS\Components\Sprite.cs" />
     <Compile Include="src\ECS\Managers\EntitiesManager.cs" />
@@ -57,9 +58,11 @@
     <Compile Include="src\ECS\Scene.cs" />
     <Compile Include="src\GameCore.cs" />
     <Compile Include="src\Input\InputsManager.cs" />
+    <Compile Include="src\Physics\ForceList.cs" />
     <Compile Include="src\Render\IDraw.cs" />
     <Compile Include="src\Render\PProcess.cs" />
     <Compile Include="src\Render\RenderManager.cs" />
+    <Compile Include="src\Util\Constants.cs" />
     <Compile Include="src\Util\Direction.cs" />
     <Compile Include="src\Util\Extension.cs" />
     <Compile Include="src\Util\Pair.cs" />

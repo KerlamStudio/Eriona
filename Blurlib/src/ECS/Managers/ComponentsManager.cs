@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using Blurlib.Render;
+using Blurlib.ECS.Components;
 
 namespace Blurlib.ECS.Managers
 {
