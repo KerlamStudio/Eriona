@@ -54,8 +54,7 @@ namespace Blurlib.Physics
                 }
             }
         }
-
-        // !TODO! : Verify 
+        
         public void Update()
         {
             CollisionPair.Clear();
@@ -72,17 +71,16 @@ namespace Blurlib.Physics
                 if (collider.Changed)
                 {
                     List<Cell> next_cell = new List<Cell>(GetCells(collider.WorldTransform));
-                    /*
+                    
                     foreach (Cell cell in GetCells(
                         collider.LastPosition.X,
                         collider.LastPosition.Y,
                         collider.LastHitbox.Width,
-                        collider.LastHitbox.Height))*/
-                   // =TODO= : optimize grid update
-                    foreach (Cell cell in GetCurrentCells(collider))
+                        collider.LastHitbox.Height))
+                    //foreach (Cell cell in GetCurrentCells(collider))
                     {
-                        cell.Colliders.Remove(collider);
-                        /*
+                        //cell.Colliders.Remove(collider);
+                        
                         if (!next_cell.Contains(cell))
                         {
                             cell.Colliders.Remove(collider);
@@ -90,16 +88,12 @@ namespace Blurlib.Physics
                         else
                         {
                             next_cell.Remove(cell);
-                        }
-                        */
+                        }                        
                     }
 
                     foreach (Cell cell in next_cell)
                     {
-                        if (!cell.Colliders.Contains(collider))
-                        {
-                            cell.Colliders.Add(collider);
-                        }
+                         cell.Colliders.Add(collider);
                     }                   
 
                     // OR
