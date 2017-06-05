@@ -17,7 +17,7 @@ namespace Blurlib.ECS.Components
         }
 
         public int ZIndex { get; set; }
-        
+
         public Texture2D Texture { get; set; }
 
         public Rectangle? TextureClip { get; set; }
@@ -36,7 +36,8 @@ namespace Blurlib.ECS.Components
                             TextureColorFilter);
 
 #if DEBUG
-            Primitives2D.DrawRectangle(spriteBatch, Entity.Get<Collider>().WorldTransform.Bounds, Color.Blue);            
+            if (Entity.Get<Collider>().IsNotNull())
+                Primitives2D.DrawRectangle(spriteBatch, Entity.Get<Collider>().WorldTransform.Bounds, Color.Blue);
 #endif
         }
     }

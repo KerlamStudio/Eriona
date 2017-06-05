@@ -78,7 +78,7 @@ namespace Blurlib.Physics
                         collider.LastPosition.Y,
                         collider.LastHitbox.Width,
                         collider.LastHitbox.Height))*/
-                   
+                   // =TODO= : optimize grid update
                     foreach (Cell cell in GetCurrentCells(collider))
                     {
                         cell.Colliders.Remove(collider);
@@ -109,6 +109,14 @@ namespace Blurlib.Physics
                 }
 
                 ComputeCollision(collider);
+            }
+
+            foreach (KeyValuePair<Collider, HashSet<Collider>> pair in ComputedCollision)
+            {
+                foreach(Collider to_collide in pair.Value)
+                {
+                    pair.Key.OnCollide(to_collide);
+                }
             }
         }
 
@@ -273,7 +281,7 @@ namespace Blurlib.Physics
                     if (collider == other || !other.Collidable || CollisionPair.Contains(test_pair))
                         continue;
 
-                    if (collider.Hitbox.IntersectBox(other.Hitbox))
+                    if (collider.WorldTransform.IntersectBox(other.WorldTransform))
                     {
                         ComputedCollision[collider].Add(other);
                         ComputedCollision[other].Add(collider);

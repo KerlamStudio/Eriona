@@ -25,9 +25,10 @@ namespace Eriona.Scenes
         public override void Begin()
         {
             base.Begin();
-            GameCore.Instance.RenderManager.ClearColor = new Color(159 , 182,     205);
+            GameCore.Instance.RenderManager.ClearColor = new Color(159, 182, 205);
             dummy = new DummyEntity();
             Add(dummy);
+            Add(new DummyEntityBis());
         }
 
         public override void BeforeUpdate()
@@ -38,7 +39,7 @@ namespace Eriona.Scenes
         public override void Update()
         {
             base.Update();
-            
+
             //("Elapsed second : " + GameCore.DeltaTime.ToString()).Printl();
         }
 

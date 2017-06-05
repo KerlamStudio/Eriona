@@ -9,11 +9,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Eriona.Entities
 {
-    public class DummyEntity : Entity
+    public class DummyEntityBis : Entity
     {
         ColliderPhysics collider;
 
-        public DummyEntity() : base("Dummy", new Vector2(0,0), true, true, true)
+        public DummyEntityBis() : base("DummyBis", new Vector2(0, 0), true, true, true)
         {
         }
 
@@ -28,10 +28,10 @@ namespace Eriona.Entities
             Add(new Sprite(Scene.Resources.Get<Texture2D>("target_dummy"), true, 0, null, new Vector2(-Scene.Resources.Get<Texture2D>("target_dummy").Width / 2, -Scene.Resources.Get<Texture2D>("target_dummy").Height / 2)));
             collider = new ColliderPhysics(
                 new Transform(
-                    -Scene.Resources.Get<Texture2D>("target_dummy").Width / 2, 
-                    -Scene.Resources.Get<Texture2D>("target_dummy").Height / 2, 
-                    Scene.Resources.Get<Texture2D>("target_dummy").Width, 
-                    Scene.Resources.Get<Texture2D>("target_dummy").Height), 
+                    -Scene.Resources.Get<Texture2D>("target_dummy").Width / 2,
+                    -Scene.Resources.Get<Texture2D>("target_dummy").Height / 2,
+                    Scene.Resources.Get<Texture2D>("target_dummy").Width,
+                    Scene.Resources.Get<Texture2D>("target_dummy").Height),
                 0.5f, null, 0.5f);
             Add(collider);
         }
@@ -60,50 +60,27 @@ namespace Eriona.Entities
         {
             base.Update();
 
-            if (GameCore.InputsManager.IsDown(Keys.Right))
+            if (GameCore.InputsManager.IsDown(Keys.D))
             {
                 WorldPosition.X += 5;
             }
-            else if (GameCore.InputsManager.IsDown(Keys.Left))
+            else if (GameCore.InputsManager.IsDown(Keys.Q))
             {
                 WorldPosition.X -= 5;
             }
 
-            if (GameCore.InputsManager.IsDown(Keys.Up))
+            if (GameCore.InputsManager.IsDown(Keys.Z))
             {
                 WorldPosition.Y -= 5;
             }
-            else if (GameCore.InputsManager.IsDown(Keys.Down))
+            else if (GameCore.InputsManager.IsDown(Keys.S))
             {
                 WorldPosition.Y += 5;
             }
 
-            if (GameCore.InputsManager.IsPressed(Keys.Space))
-            {
-                collider.Forces.AddForce("test", new Vector2(9.83f * collider.Mass, 0));
-            }
-            if (GameCore.InputsManager.IsPressed(Keys.Enter))
-            {
-                collider.Forces.RemoveForce("test");
-            }
+            if (collider.GetWorldLayer().HasCollision(collider))
+            { "Collide !".Printl(); }
 
-            if (GameCore.InputsManager.IsPressed(Keys.RightShift))
-            {
-                collider.Velocity = new Vector2(3, 4);
-            }
-
-            if (GameCore.InputsManager.IsPressed(Keys.R))
-            {
-                collider.Velocity = Vector2.Zero;
-                collider.Entity.WorldPosition = Vector2.Zero;
-            }
-            /*
-            foreach (Cell cell in collider.GetWorldLayer().GetCurrentCells(collider))
-            {
-                " - ".Print();
-                cell.GridPosition.Print();
-
-            }*/
         }
     }
 }

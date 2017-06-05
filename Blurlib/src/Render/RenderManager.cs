@@ -13,7 +13,12 @@ namespace Blurlib.Render
         {
             public int Compare(IDraw a, IDraw b)
             {
-                return a.ZIndex.CompareTo(b.ZIndex);
+                int result = a.ZIndex.CompareTo(b.ZIndex);
+
+                if (result == 0)
+                    return 1;   // Handle equality as beeing greater
+                else
+                    return result;
             }
 
             public static ZIndexComparer Comparer = new ZIndexComparer();

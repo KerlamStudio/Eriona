@@ -107,7 +107,7 @@ namespace Blurlib.ECS.Components
             LastPosition = WorldPosition + _hitbox.Position;
         }
 
-        public virtual void OnCollide(Collider other, Direction from)
+        public virtual void OnCollide(Collider other)
         {
 
         }
