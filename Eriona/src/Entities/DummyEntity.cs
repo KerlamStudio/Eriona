@@ -59,7 +59,7 @@ namespace Eriona.Entities
         public override void Update()
         {
             base.Update();
-            
+
             if (GameCore.InputsManager.IsDown(Keys.Right))
             {
                 WorldPosition.X += 5;
@@ -97,9 +97,15 @@ namespace Eriona.Entities
                 collider.Velocity = Vector2.Zero;
                 collider.Entity.WorldPosition = Vector2.Zero;
             }
+            /*
+            foreach (Cell cell in collider.GetWorldLayer().GetCurrentCells(collider))
+            {
+                " - ".Print();
+                cell.GridPosition.Print();
 
+            }*/
 
-            collider.Velocity.Printl();
+            collider.GetWorldLayer().GetCurrentCells(collider).Count.Printl();
         }
     }
 }

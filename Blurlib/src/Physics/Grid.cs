@@ -1,6 +1,7 @@
 ﻿using Blurlib.ECS.Components;
 using Blurlib.Util;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
@@ -58,26 +59,30 @@ namespace Blurlib.Physics
         public void Update()
         {
             CollisionPair.Clear();
-
-            UpdatePhysics();
-
+            
             foreach (HashSet<Collider> collider_list in ComputedCollision.Values)
             {
                 collider_list.Clear();
             }
+
+            UpdatePhysics();
 
             foreach (Collider collider in ColliderList)
             {
                 if (collider.Changed)
                 {
                     List<Cell> next_cell = new List<Cell>(GetCells(collider.WorldTransform));
-
+                    /*
                     foreach (Cell cell in GetCells(
                         collider.LastPosition.X,
                         collider.LastPosition.Y,
                         collider.LastHitbox.Width,
-                        collider.LastHitbox.Height))
+                        collider.LastHitbox.Height))*/
+                   
+                    foreach (Cell cell in GetCurrentCells(collider))
                     {
+                        cell.Colliders.Remove(collider);
+                        /*
                         if (!next_cell.Contains(cell))
                         {
                             cell.Colliders.Remove(collider);
@@ -86,6 +91,7 @@ namespace Blurlib.Physics
                         {
                             next_cell.Remove(cell);
                         }
+                        */
                     }
 
                     foreach (Cell cell in next_cell)
@@ -94,7 +100,7 @@ namespace Blurlib.Physics
                         {
                             cell.Colliders.Add(collider);
                         }
-                    }
+                    }                   
 
                     // OR
 
@@ -116,7 +122,7 @@ namespace Blurlib.Physics
 
                     colliderPhy.Velocity += (colliderPhy.Acceleration - colliderPhy.Friction * colliderPhy.Velocity) * GameCore.DeltaTime;
 
-                    if (colliderPhy.Velocity.X < 0.01f && colliderPhy.Velocity.X > - 0.01f)
+                    if (colliderPhy.Velocity.X < 0.01f && colliderPhy.Velocity.X > -0.01f)
                         colliderPhy.Velocity.X = 0;
                     if (colliderPhy.Velocity.Y < 0.01f && colliderPhy.Velocity.Y > -0.01f)
                         colliderPhy.Velocity.Y = 0;
@@ -175,6 +181,17 @@ namespace Blurlib.Physics
             ColliderList.Clear();
         }
 
+        public List<Cell> GetCurrentCells(Collider collider)
+        {
+            List<Cell> to = new List<Cell>();
+            foreach (Cell cell in _cells)
+            {
+                if (cell.Colliders.Contains(collider))
+                    to.Add(cell);
+            }
+            return to;
+        }
+
         public IEnumerable<Cell> GetCells(Collider collider)
         {
             return GetCells(collider.WorldTransform);
@@ -187,15 +204,33 @@ namespace Blurlib.Physics
 
         public IEnumerable<Cell> GetCells(float x, float y, float w, float h)
         {
+            /*
             int px = (int)((x - Position.X) * InverseCellSize.X);
             int py = (int)((y - Position.Y) * InverseCellSize.Y);
 
+            
             for (int i = 0; i <= w * InverseCellSize.X; i++)
             {
                 for (int j = 0; j <= h * InverseCellSize.Y; j++)
                 {
                     if (i + px >= 0 && i + px < CellNb.X && j + py >= 0 && j + py < CellNb.Y)
                         yield return _cells[i + px, j + py];
+                }
+            }
+            */
+
+            int minX = (int)Math.Truncate(x / Size.X * CellNb.X);
+            int maxX = (int)Math.Truncate((x + w) / Size.X * CellNb.X);
+
+            int minY = (int)Math.Truncate(y / Size.Y * CellNb.Y);
+            int maxY = (int)Math.Truncate((y + h) / Size.Y * CellNb.Y);
+
+            for (int i = minX; i <= maxX; i++)
+            {
+                for (int j = minY; j <= maxY; j++)
+                {
+                    if (i >= 0 && i < CellNb.X && j + j >= 0 && j < CellNb.Y)
+                        yield return _cells[i, j];
                 }
             }
         }
@@ -267,9 +302,21 @@ namespace Blurlib.Physics
             hash = hash * 23 + Size.GetHashCode();
             hash = hash * 23 + CellSize.GetHashCode();
             hash = hash * 23 + Position.GetHashCode();
-            hash = hash * 23 + ColliderList.GetHashCode();
 
             return hash;
+        }
+
+        public void DebugDraw(SpriteBatch spritebatch)
+        {
+            for (int i = 0; i < CellNb.X; i++)
+            {
+                Primitives2D.DrawLine(spritebatch, new Vector2(Position.X + i * CellSize.X, Position.Y), new Vector2(Position.X + i * CellSize.X, Position.Y + Size.Y), new Color(0, 0, 0, 0.3f));
+            }
+
+            for (int i = 0; i < CellNb.X; i++)
+            {
+                Primitives2D.DrawLine(spritebatch, new Vector2(Position.X, Position.Y + i * CellSize.Y), new Vector2(Position.X + Size.X, Position.Y + i * CellSize.Y), new Color(0, 0, 0, 0.3f));
+            }
         }
     }
 }

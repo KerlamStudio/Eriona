@@ -34,17 +34,10 @@ namespace Blurlib.ECS.Components
                             TexturePosition + TextureOffset,
                             TextureClip,
                             TextureColorFilter);
-        }
 
-        public override int GetHashCode()
-        {
-            int hash = base.GetHashCode();
-
-            hash = hash * 23 + ZIndex.GetHashCode();
-            hash = hash * 23 + Texture?.GetHashCode() ?? 0;
-            hash = hash * 23 + TextureOffset.GetHashCode();
-
-            return hash;
+#if DEBUG
+            Primitives2D.DrawRectangle(spriteBatch, Entity.Get<Collider>().WorldTransform.Bounds, Color.Blue);            
+#endif
         }
     }
 }

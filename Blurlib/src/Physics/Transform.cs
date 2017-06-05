@@ -8,11 +8,11 @@ namespace Blurlib.Physics
     {
         public static Transform Zero = new Transform(0, 0, 0, 0);
 
-        public float X              { get;                                                      set; }
-        public float Y              { get;                                                      set; }
+        public float X;
+        public float Y;
 
-        public float Width          { get;                                                      set; }
-        public float Height         { get;                                                      set; }
+        public float Width;
+        public float Height;
 
         public float Top            { get { return Y; }                                         set { Y = value; } }
         public float Bottom         { get { return Y + Height; }                                set { Y = value - Height; } }
@@ -187,6 +187,14 @@ namespace Blurlib.Physics
         public Transform Copy()
         {
             return new Transform(X, Y, Width, Height);
+        }
+
+        public void Copy(Transform transformCopy)
+        {
+            X = transformCopy.X;
+            Y = transformCopy.Y;
+            Width = transformCopy.Width;
+            Height = transformCopy.Height;
         }
     }
 }

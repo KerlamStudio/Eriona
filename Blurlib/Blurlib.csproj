@@ -70,6 +70,7 @@
     <Compile Include="src\Physics\Grid.cs" />
     <Compile Include="src\Physics\Transform.cs" />
     <Compile Include="src\Physics\World.cs" />
+    <Compile Include="src\Util\Primitives2D.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\GUI\" />

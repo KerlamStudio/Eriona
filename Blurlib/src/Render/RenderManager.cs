@@ -127,6 +127,9 @@ namespace Blurlib.Render
                     }
                 }
             }
+#if DEBUG
+            GameCore.Instance.Scene.World.MainLayer.DebugDraw(spriteBatch);
+#endif
 
             spriteBatch.End();
         }

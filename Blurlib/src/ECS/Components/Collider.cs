@@ -102,7 +102,7 @@ namespace Blurlib.ECS.Components
         {
             base.Update();
 
-            LastHitbox = Hitbox.Copy();
+            LastHitbox.Copy(Hitbox);
 
             LastPosition = WorldPosition + _hitbox.Position;
         }
@@ -112,9 +112,9 @@ namespace Blurlib.ECS.Components
 
         }
 
-        public override int GetHashCode()
+        public Grid GetWorldLayer()
         {
-            return base.GetHashCode() * 23 + Hitbox.GetHashCode();
+            return Scene.World.GetLayer(WorldLayer);
         }
     }
 }

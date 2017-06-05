@@ -3,6 +3,7 @@ using Blurlib;
 using Blurlib.Util;
 using Microsoft.Xna.Framework.Graphics;
 using Eriona.Entities;
+using Microsoft.Xna.Framework;
 
 namespace Eriona.Scenes
 {
@@ -24,6 +25,7 @@ namespace Eriona.Scenes
         public override void Begin()
         {
             base.Begin();
+            GameCore.Instance.RenderManager.ClearColor = new Color(159 , 182,     205);
             dummy = new DummyEntity();
             Add(dummy);
         }

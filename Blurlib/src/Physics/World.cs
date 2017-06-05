@@ -9,7 +9,7 @@ namespace Blurlib.Physics
     {
         public Scene Scene { get; private set; }
 
-        public Dictionary<string, Grid> Layers { get; private set; }
+        private Dictionary<string, Grid> _layers { get; set; }
 
         public Grid MainLayer { get; private set; }
 
@@ -17,16 +17,16 @@ namespace Blurlib.Physics
         {
             Scene = scene;
 
-            Layers = new Dictionary<string, Grid>();
+            _layers = new Dictionary<string, Grid>();
 
-            MainLayer = mainLayout ?? new Grid("MAIN", 1000, 1000, 50, 50);
+            MainLayer = mainLayout ?? new Grid("MAIN", 1000, 1000, 100, 100);
 
-            Layers.Add(MainLayer.Id, MainLayer);
+            _layers.Add(MainLayer.Id, MainLayer);
         }
 
         public virtual void Initialize()
         {
-            foreach (Grid layer in Layers.Values)
+            foreach (Grid layer in _layers.Values)
             {
                 layer.Initialize();
             }
@@ -34,7 +34,7 @@ namespace Blurlib.Physics
 
         public virtual void Update()
         {
-            foreach (Grid layer in Layers.Values)
+            foreach (Grid layer in _layers.Values)
             {
                 layer.Update();
             }
@@ -42,9 +42,9 @@ namespace Blurlib.Physics
 
         public void Add(Collider collider, string layer = null)
         {
-            if (layer.IsNotNull() && Layers.ContainsKey(layer))
+            if (layer.IsNotNull() && _layers.ContainsKey(layer))
             {
-                Layers[layer].Add(collider);
+                _layers[layer].Add(collider);
                 collider.WorldLayer = layer;
             }
             else
@@ -56,12 +56,33 @@ namespace Blurlib.Physics
 
         public void Remove(Collider collider)
         {
-            if (Layers.ContainsKey(collider.WorldLayer))
+            if (_layers.ContainsKey(collider.WorldLayer))
             {
-                Layers[collider.WorldLayer].Remove(collider);
+                _layers[collider.WorldLayer].Remove(collider);
             }
 
             collider.WorldLayer = "";
+        }
+
+        public void AddLayer(string id, Grid layer)
+        {
+            if (!_layers.ContainsKey(id))
+            {
+                _layers.Add(id, layer);
+                layer.Initialize();
+            }
+        }
+
+        public Grid GetLayer(string id)
+        {
+            if (_layers.ContainsKey(id))
+            {
+                return _layers[id];
+            }
+            else
+            {
+                return null;
+            }
         }
 
     }
