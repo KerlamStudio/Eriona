@@ -71,6 +71,15 @@ namespace Blurlib
             _graphics.PreparingDeviceSettings += Graphics_PreparingDeviceSettings;
 
             Content.RootDirectory = contentDir;
+
+
+            _graphics.PreferredBackBufferWidth = WindowWidth;
+            _graphics.PreferredBackBufferHeight = WindowHeight;
+
+            _graphics.SynchronizeWithVerticalRetrace = false;
+            IsFixedTimeStep = true;
+            TargetElapsedTime = TimeSpan.FromMilliseconds(1000.0f / 60);
+            _graphics.ApplyChanges();
         }
 
         private void Graphics_DeviceCreated(object sender, EventArgs e)
@@ -81,24 +90,19 @@ namespace Blurlib
         private void Graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
         {
             // -TODO-: understand this lol
-            _graphics.PreferredBackBufferWidth = WindowWidth;
-            _graphics.PreferredBackBufferHeight = WindowHeight;
             _graphics.PreferMultiSampling = true;
             // -TODO-: Create setting to GraphicsProfile.Reach for old computer
             _graphics.GraphicsProfile = GraphicsProfile.HiDef;
 
-            _graphics.SynchronizeWithVerticalRetrace = true;
-            IsFixedTimeStep = true;
+            //_graphics.SynchronizeWithVerticalRetrace = false;
+            //IsFixedTimeStep = true;
             // or
             // -TODO-: Test difference
-            /*             
-            _graphics.SynchronizeWithVerticalRetrace = false;
-            IsFixedTimeStep = true;
-            TargetElapsedTime = TimeSpan.FromMilliseconds(1000.0f / 60);
-             */
+            
 
             _graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
             e.GraphicsDeviceInformation.PresentationParameters.MultiSampleCount = 16;
+            //_graphics.ApplyChanges();
         }
 
         protected override void Initialize()
@@ -108,6 +112,8 @@ namespace Blurlib
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             RenderManager.Initialize();
+
+            _graphics.ApplyChanges();
         }
 
         protected override void Update(GameTime gameTime)

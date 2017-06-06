@@ -13,7 +13,7 @@ namespace Eriona
         [STAThread]
         static void Main()
         {
-            using (var game = new ErionaGame(1200, 600, "Eriona Dev"))
+            using (var game = new ErionaGame(1200, 700, "Eriona Dev"))
                 game.Run();
             Console.WriteLine("Appuyez sur Entrée pour continuer . . .");
             Console.Read();

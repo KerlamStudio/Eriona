@@ -160,8 +160,6 @@ namespace Blurlib.ECS
         public virtual void BeforeUpdate()
         {
             _entities.RefreshLists();
-
-            World.Update();
         }
 
         public virtual void Update()
@@ -171,6 +169,8 @@ namespace Blurlib.ECS
 
         public virtual void AfterUpdate()
         {
+
+            World.Update();
 
         }
 

@@ -8,24 +8,27 @@ namespace Blurlib.Util
         public T first;
         public T second;
 
+        public object UserData;
 
-        public Pair(T first, T second)
+        public Pair(T first, T second, object userDAta = null)
         {
             this.first = first;
             this.second = second;
+            UserData = userDAta;
         }
 
 
         public void Clear()
         {
             first = second = null;
+            UserData = null;
         }
 
 
         public bool Equals(Pair<T> other)
         {
             // these two ways should be functionaly equivalent
-            return first == other.first && second == other.second;
+            return (first == other.first && second == other.second) || (first == other.second && second == other.first);
 
             //return EqualityComparer<T>.Default.Equals( first, other.first ) &&
             //	EqualityComparer<T>.Default.Equals( second, other.second );

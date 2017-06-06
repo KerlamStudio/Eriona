@@ -29,6 +29,8 @@ namespace Eriona.Scenes
             dummy = new DummyEntity();
             Add(dummy);
             Add(new DummyEntityBis());
+            Add(new DummyEntityBis("r"));
+            Add(new Platform(new Vector2(0, 0)));
         }
 
         public override void BeforeUpdate()

@@ -13,20 +13,32 @@ namespace Blurlib.ECS.Components
             get { return _hitbox; }
             set
             {
-                _hitbox = value;
+                if (!Static)
+                    _hitbox = value;
             }
         }
 
+        private Transform _worldPosition;
         public Transform WorldTransform
         {
-            get { return new Transform(Position, _hitbox.Size); }
+            get
+            {
+                _worldPosition.Position = Position;
+                _worldPosition.Size = _hitbox.Size;
+                return _worldPosition;
+            }
+        }
+    // -TODO- Optimize
+        public Transform LastWorldTransform
+        {
+            get { return new Transform(LastPosition, LastHitbox.Size); }
         }
 
         public Vector2 Position
         {
             get { return WorldPosition + _hitbox.Position; }
         }
-                
+
         public Transform LastHitbox
         {
             get;
@@ -38,7 +50,7 @@ namespace Blurlib.ECS.Components
             get;
             private set;
         }
-        
+
         private bool _collidable;
         public bool Collidable
         {
@@ -57,19 +69,44 @@ namespace Blurlib.ECS.Components
 
         public bool Changed
         {
-            get { return LastPosition != Position || LastHitbox != Hitbox; }
+            get
+            {
+                return LastPosition != Position || LastHitbox != Hitbox;
+            }
         }
 
         public string WorldLayer { get; internal set; }
 
-        public Collider(Transform transform, bool collidable = true, string layer=null) : base(true, false)
+        private bool _static;
+        public bool Static
+        {
+            get
+            {
+                return _static;
+            }
+            set
+            {
+                if (value)
+                {
+                    LastHitbox.Copy(Hitbox);
+                    LastPosition = WorldPosition + _hitbox.Position;
+                }
+                _static = value;
+            }
+        }
+
+        public bool Solid;
+
+        public Collider(Transform transform, bool collidable = true, bool isStatic = false, bool solid = false, string layer = null) : base(true, false)
         {
             _hitbox = transform;
+            _worldPosition = new Transform();
             LastHitbox = transform;
             LastPosition = WorldPosition + _hitbox.Position;
             _collidable = collidable;
-
+            _static = isStatic;
             WorldLayer = layer;
+            Solid = solid;
         }
 
         public virtual bool CollideWith(Collider other)
@@ -107,7 +144,7 @@ namespace Blurlib.ECS.Components
             LastPosition = WorldPosition + _hitbox.Position;
         }
 
-        public virtual void OnCollide(Collider other)
+        public void OnCollide(Collider other)
         {
 
         }

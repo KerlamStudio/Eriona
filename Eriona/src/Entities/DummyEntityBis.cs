@@ -6,6 +6,7 @@ using Blurlib.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Eriona.Entities
 {
@@ -13,7 +14,7 @@ namespace Eriona.Entities
     {
         ColliderPhysics collider;
 
-        public DummyEntityBis() : base("DummyBis", new Vector2(0, 0), true, true, true)
+        public DummyEntityBis(string id="") : base("DummyBis" + id, new Vector2(0, 0), true, true, true)
         {
         }
 
@@ -78,8 +79,10 @@ namespace Eriona.Entities
                 WorldPosition.Y += 5;
             }
 
+            /*
             if (collider.GetWorldLayer().HasCollision(collider))
-            { "Collide !".Printl(); }
+            { ("Collide ! " + (collider.GetWorldLayer().GetCollisions(collider) as ICollection<Collider>).Count.ToString()).Printl(); }
+            */
 
         }
     }

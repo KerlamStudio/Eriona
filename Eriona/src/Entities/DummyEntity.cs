@@ -39,6 +39,7 @@ namespace Eriona.Entities
         public override void Awake()
         {
             base.Awake();
+            collider.Forces.AddForce("gravity", new Vector2(0, Constants.Gravity * collider.Mass));
         }
 
         public override void OnDisable()
@@ -59,7 +60,7 @@ namespace Eriona.Entities
         public override void Update()
         {
             base.Update();
-
+            
             if (GameCore.InputsManager.IsDown(Keys.Right))
             {
                 WorldPosition.X += 5;
@@ -73,6 +74,7 @@ namespace Eriona.Entities
             {
                 WorldPosition.Y -= 5;
             }
+
             else if (GameCore.InputsManager.IsDown(Keys.Down))
             {
                 WorldPosition.Y += 5;
@@ -80,13 +82,9 @@ namespace Eriona.Entities
 
             if (GameCore.InputsManager.IsPressed(Keys.Space))
             {
-                collider.Forces.AddForce("test", new Vector2(9.83f * collider.Mass, 0));
+                collider.Velocity.Y -= 9;
             }
-            if (GameCore.InputsManager.IsPressed(Keys.Enter))
-            {
-                collider.Forces.RemoveForce("test");
-            }
-
+            collider.Velocity.Printl();
             if (GameCore.InputsManager.IsPressed(Keys.RightShift))
             {
                 collider.Velocity = new Vector2(3, 4);
@@ -97,14 +95,16 @@ namespace Eriona.Entities
                 collider.Velocity = Vector2.Zero;
                 collider.Entity.WorldPosition = Vector2.Zero;
             }
-            
+            /*
             foreach (Cell cell in collider.GetWorldLayer().GetCurrentCells(collider))
             {
                 " - ".Print();
                 cell.GridPosition.Print();
 
             }
-            "".Printl();
+            "".Printl();*/
         }
+
+        
     }
 }
