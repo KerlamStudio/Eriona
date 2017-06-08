@@ -10,7 +10,7 @@ namespace Blurlib.Util
     {
         public const float MeterToPixels = 30;
 
-        public const float Gravity = 19.66f;
+        public const float Gravity = 300f;
 
     }
 }

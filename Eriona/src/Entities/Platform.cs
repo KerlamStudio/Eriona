@@ -13,7 +13,7 @@ namespace Eriona.Entities
 {
     public class Platform : Entity
     {
-        SolidCollider solid1;
+        Collider solid1;
 
         public Platform(Vector2 position) : base("Platform", position, visible:true, collidable:true)
         {
@@ -28,9 +28,8 @@ namespace Eriona.Entities
         public override void OnAdded(Scene scene)
         {
             base.OnAdded(scene);
-            solid1 = new SolidCollider(new Transform(10, 480, 1180, 15));
+            solid1 = new Collider(new Transform(110, 480, 900, 15), solid:true);
             Add(solid1);
-            Add(new Sprite(Scene.Resources.Get<Texture2D>("target_dummy"), textureClip:Rectangle.Empty));
         }
     }
 }

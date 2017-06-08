@@ -34,11 +34,6 @@ namespace Blurlib.ECS.Components
                             TexturePosition + TextureOffset,
                             TextureClip,
                             TextureColorFilter);
-
-#if DEBUG
-            if (Entity.Get<Collider>().IsNotNull())
-                Primitives2D.DrawRectangle(spriteBatch, Entity.Get<Collider>().WorldTransform.Bounds, Color.Blue);
-#endif
         }
     }
 }

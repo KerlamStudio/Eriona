@@ -82,9 +82,9 @@ namespace Eriona.Entities
 
             if (GameCore.InputsManager.IsPressed(Keys.Space))
             {
-                collider.Velocity.Y -= 9;
+                collider.Velocity.Y -= 9 *  60;
             }
-            collider.Velocity.Printl();
+            
             if (GameCore.InputsManager.IsPressed(Keys.RightShift))
             {
                 collider.Velocity = new Vector2(3, 4);
@@ -103,8 +103,10 @@ namespace Eriona.Entities
 
             }
             "".Printl();*/
+            //collider.Velocity.Printl();
         }
 
+        
         
     }
 }

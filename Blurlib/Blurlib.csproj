@@ -62,6 +62,7 @@
     <Compile Include="src\Render\IDraw.cs" />
     <Compile Include="src\Render\PProcess.cs" />
     <Compile Include="src\Render\RenderManager.cs" />
+    <Compile Include="src\Util\BTuple.cs" />
     <Compile Include="src\Util\Constants.cs" />
     <Compile Include="src\Util\Direction.cs" />
     <Compile Include="src\Util\Extension.cs" />

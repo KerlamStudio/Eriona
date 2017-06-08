@@ -28,6 +28,9 @@ namespace Blurlib.ECS.Components
                 return _worldPosition;
             }
         }
+
+        public Color DebugColor = Color.Blue;
+
     // -TODO- Optimize
         public Transform LastWorldTransform
         {
@@ -144,7 +147,7 @@ namespace Blurlib.ECS.Components
             LastPosition = WorldPosition + _hitbox.Position;
         }
 
-        public void OnCollide(Collider other)
+        public virtual void OnCollide(Collider other, Vector3 normal = default(Vector3))
         {
 
         }

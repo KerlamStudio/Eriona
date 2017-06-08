@@ -50,6 +50,7 @@
     <Compile Include="src\Components\DummyComponent.cs" />
     <Compile Include="src\Entities\DummyEntity.cs" />
     <Compile Include="src\Entities\DummyEntityBis.cs" />
+    <Compile Include="src\Entities\Platform.cs" />
     <Compile Include="src\ErionaGame.cs" />
     <Compile Include="src\Scenes\DummyScene.cs" />
   </ItemGroup>

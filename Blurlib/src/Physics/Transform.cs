@@ -196,5 +196,10 @@ namespace Blurlib.Physics
             Width = transformCopy.Width;
             Height = transformCopy.Height;
         }
+
+        public override string ToString()
+        {
+            return "{ Transform : X=" + X.ToString() + " Y=" + Y.ToString() +" Width=" + Width.ToString() +" Height=" + Height.ToString() + " }" ;
+        }
     }
 }
